@@ -2,9 +2,9 @@
 
 <!--
 Copyright 2018 Norman Kluge
- 
+
 This file is part of ASGbreeze2stg.
- 
+
 ASGbreeze2stg is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
@@ -18,147 +18,148 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <breeze2stgComponents>
-    <component breezename="BrzVariable">
-        <scales>
-        	<scale id="0" type="output_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzCallMux">
-    	<scales>
-        	<scale id="0" type="input_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzSequence">
-    	<scales>
-        	<scale id="0" type="control_out" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzFetch" />
-    
-    <component breezename="BrzCase">
-        <scales>
-        	<scale id="0" type="control_out" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzWhile" />
-    
-    <component breezename="BrzBinaryFunc" />
-
-    <component breezename="BrzUnaryFunc" />
-
-    <component breezename="BrzSplitEqual">
-        <scales>
-        	<scale id="0" type="output_count" />
-        </scales>
-    </component>    
-        
-    <component breezename="BrzBinaryFuncConstR" />
-    
-    <component breezename="BrzConcur">
-        <scales>
-        	<scale id="0" type="control_out" />
-        </scales>
-    </component>    
-    
-    <component breezename="BrzConstant" />
-    
-    <component breezename="BrzCombine" />
-    
-    <component breezename="BrzFalseVariable">
-        <scales>
-        	<scale id="0" type="output_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzAdapt" />
-    
-    <component breezename="BrzLoop" />
-    
-    <component breezename="BrzDecisionWait">
-        <scales>
-        	<scale id="0" type="port_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzCaseFetch">
-        <scales>
-        	<scale id="0" type="input_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzArbiter" />
-    
-    <component breezename="BrzCombineEqual">
-        <scales>
-        	<scale id="0" type="input_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzEncode">
-        <scales>
-        	<scale id="0" type="input_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzWireFork">
-        <scales>
-        	<scale id="0" type="output_count" />
-        </scales>
-    </component>
-    
-    <component breezename="BrzSplit" />
 
     <component breezename="BrzActiveEagerFalseVariable">
         <scales>
-        	<scale id="0" type="output_count" />
+            <scale id="0" type="output_count" />
         </scales>
     </component>
-    
+
+    <component breezename="BrzAdapt" />
+
+    <component breezename="BrzArbiter" />
+
+    <component breezename="BrzBinaryFunc" />
+
+    <component breezename="BrzBinaryFuncConstR" />
+
     <component breezename="BrzCall">
         <scales>
-        	<scale id="0" type="input_count" />
+            <scale id="0" type="input_count" />
         </scales>
     </component>
-    
+
     <component breezename="BrzCallDemux">
         <scales>
-        	<scale id="0" type="output_count" />
+            <scale id="0" type="output_count" />
         </scales>
     </component>
-    
+
+    <component breezename="BrzCallMux">
+        <scales>
+            <scale id="0" type="input_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzCase">
+        <scales>
+            <scale id="0" type="control_out" />
+        </scales>
+    </component>
+
+    <component breezename="BrzCaseFetch">
+        <scales>
+            <scale id="0" type="input_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzCombine" />
+
+    <component breezename="BrzCombineEqual">
+        <scales>
+            <scale id="0" type="input_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzConcur">
+        <scales>
+            <scale id="0" type="control_out" />
+        </scales>
+    </component>
+
+    <component breezename="BrzConstant" />
+
     <component breezename="BrzContinue" />
-    
+
     <component breezename="BrzContinuePush" />
-    
+
+    <component breezename="BrzDecisionWait">
+        <scales>
+            <scale id="0" type="port_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzEncode">
+        <scales>
+            <scale id="0" type="input_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzFalseVariable">
+        <scales>
+            <scale id="0" type="output_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzFetch" />
+
     <component breezename="BrzFork">
         <scales>
-        	<scale id="0" type="output_count" />
+            <scale id="0" type="output_count" />
         </scales>
     </component>
-    
+
+    <component breezename="BrzLoop" />
+
     <component breezename="BrzNullAdapt" />
-    
+
     <component breezename="BrzPassivatorPush">
         <scales>
-        	<scale id="0" type="output_count" />
+            <scale id="0" type="output_count" />
         </scales>
     </component>
-    
+
+    <component breezename="BrzSequence">
+        <scales>
+            <scale id="0" type="control_out" />
+        </scales>
+    </component>
+
     <component breezename="BrzSlice" />
-    
+
+    <component breezename="BrzSplit" />
+
+    <component breezename="BrzSplitEqual">
+        <scales>
+            <scale id="0" type="output_count" />
+        </scales>
+    </component>
+
     <component breezename="BrzSynch">
         <scales>
-        	<scale id="0" type="input_count" />
+            <scale id="0" type="input_count" />
         </scales>
     </component>
-    
+
     <component breezename="BrzSynchPush">
         <scales>
-        	<scale id="0" type="output_count" />
+            <scale id="0" type="output_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzUnaryFunc" />
+
+    <component breezename="BrzVariable">
+        <scales>
+            <scale id="0" type="output_count" />
+        </scales>
+    </component>
+
+    <component breezename="BrzWhile" />
+
+    <component breezename="BrzWireFork">
+        <scales>
+            <scale id="0" type="output_count" />
         </scales>
     </component>
 
