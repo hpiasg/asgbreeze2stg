@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 
 /*
  * Copyright (C) 2018 Norman Kluge
@@ -19,21 +19,23 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "breeze2stgconfig")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Config {
+public class Scales {
+    @XmlElement(name = "scale")
+    private List<Scale> scales;
 
-    //@formatter:off
-    
-    @XmlElement(name = "components", required = true)
-    public String componentconfig;
-    @XmlElement(name = "workdir", required = false)
-    public String workdir;
-    
-    //@formatter:on
+    public Scale getScaleById(int id) {
+        for(Scale scale : scales) {
+            if(scale.getId() == id) {
+                return scale;
+            }
+        }
+        return null;
+    }
 }

@@ -20,12 +20,25 @@ package de.uni_potsdam.hpi.asg.breeze2stg;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
 
 import org.apache.logging.log4j.Logger;
 
-import de.uni_potsdam.hpi.asg.breeze2stg.io.Config;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.ConfigFile;
+import com.google.common.base.Strings;
+
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale.ScaleType;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
+import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
+import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
+import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Channel.ChannelType;
+import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Parameter.ParameterType;
 import de.uni_potsdam.hpi.asg.common.invoker.ExternalToolsInvoker;
 import de.uni_potsdam.hpi.asg.common.invoker.local.ShutdownThread;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper;
@@ -92,7 +105,102 @@ public class Breeze2STGMain {
     }
 
     private static int execute() {
+        // Read components config
+        Breeze2STGComponents compConfig = Breeze2STGComponentsFile.readIn(config.breeze2stgComponentConfig);
+        if(compConfig == null) {
+            logger.error("Could not read breeze2stg component configurarion");
+            return -1;
+        }
+
+        // Read breeze
+        File actualBreezeFile;
+        try {
+            actualBreezeFile = options.getBreezeFile().getCanonicalFile();
+        } catch(IOException e) {
+            logger.error(e.getLocalizedMessage());
+            return -1;
+        }
+        BreezeProject proj = BreezeProject.create(actualBreezeFile, config.generalComponentConfig, false, true); //TODO: skips
+        if(proj == null) {
+            logger.error("Could not create Breeze project");
+            return -1;
+        }
+
+        // Choose last
+        AbstractBreezeNetlist breezeNetlist = null;
+        for(AbstractBreezeNetlist n : proj.getSortedNetlists()) {
+            breezeNetlist = n;
+        }
+        if(breezeNetlist == null) {
+            logger.error("Breeze file did not contain a netlist");
+            return -1;
+        }
+
+        for(HSComponentInst inst : breezeNetlist.getAllHSInstances()) {
+            String compName = inst.getComp().getComp().getBreezename();
+
+            Breeze2STGComponent comp = compConfig.getComponentByName(compName);
+            if(comp == null) {
+                logger.error("Breeze2STG component configurarion for component " + compName + " not found");
+                return -1;
+            }
+
+            int scaleFactor = -1;
+            if(comp.getScales() != null) {
+                Scale scale = comp.getScales().getScaleById(0);
+                if(scale == null) {
+                    logger.error("No scale with id 0 for component " + compName + " defined");
+                    return -1;
+                }
+                ScaleType type = scale.getType();
+                if(type == null) {
+                    logger.error("Scale type for id 0 for component " + compName + " invalid");
+                    return -1;
+                }
+
+                switch(type) {
+                    case control_in: {
+                        int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_in).getId();
+                        scaleFactor = inst.getChan(chan_id).size();
+                    }
+                        break;
+                    case control_out: {
+                        int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_out).getId();
+                        scaleFactor = inst.getChan(chan_id).size();
+                    }
+                        break;
+                    case input_count:
+                        scaleFactor = paramToInteger(inst, ParameterType.input_count);
+                        break;
+                    case output_count:
+                        scaleFactor = paramToInteger(inst, ParameterType.output_count);
+                        break;
+                    case port_count:
+                        scaleFactor = paramToInteger(inst, ParameterType.port_count);
+                        break;
+                }
+
+            }
+
+          //@formatter:off
+          System.out.println(
+              Strings.padEnd(compName, 25, ' ') + 
+              Strings.padEnd((scaleFactor == 0) ? "-" : Integer.toString(scaleFactor), 5, ' ')
+          );
+          //@formatter:on
+
+        }
+
         return 0;
+    }
+
+    private static Integer paramToInteger(HSComponentInst inst, ParameterType param) {
+        Object paramObj = inst.getType().getParamValue(param);
+        Integer paramInt = null;
+        if(paramObj instanceof Integer) {
+            paramInt = (Integer)paramObj;
+        }
+        return paramInt;
     }
 
     /**

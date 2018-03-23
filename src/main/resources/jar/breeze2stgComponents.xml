@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+Copyright 2018 Norman Kluge
+ 
+This file is part of ASGbreeze2stg.
+ 
+ASGbreeze2stg is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+ASGbreeze2stg is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+<breeze2stgComponents>
+    <component breezename="BrzVariable">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzCallMux">
+    	<scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzSequence">
+    	<scales>
+        	<scale id="0" type="control_out" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzFetch" />
+    
+    <component breezename="BrzCase">
+        <scales>
+        	<scale id="0" type="control_out" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzWhile" />
+    
+    <component breezename="BrzBinaryFunc" />
+
+    <component breezename="BrzUnaryFunc" />
+
+    <component breezename="BrzSplitEqual">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>    
+        
+    <component breezename="BrzBinaryFuncConstR" />
+    
+    <component breezename="BrzConcur">
+        <scales>
+        	<scale id="0" type="control_out" />
+        </scales>
+    </component>    
+    
+    <component breezename="BrzConstant" />
+    
+    <component breezename="BrzCombine" />
+    
+    <component breezename="BrzFalseVariable">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzAdapt" />
+    
+    <component breezename="BrzLoop" />
+    
+    <component breezename="BrzDecisionWait">
+        <scales>
+        	<scale id="0" type="port_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzCaseFetch">
+        <scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzArbiter" />
+    
+    <component breezename="BrzCombineEqual">
+        <scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzEncode">
+        <scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzWireFork">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzSplit" />
+
+    <component breezename="BrzActiveEagerFalseVariable">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzCall">
+        <scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzCallDemux">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzContinue" />
+    
+    <component breezename="BrzContinuePush" />
+    
+    <component breezename="BrzFork">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzNullAdapt" />
+    
+    <component breezename="BrzPassivatorPush">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzSlice" />
+    
+    <component breezename="BrzSynch">
+        <scales>
+        	<scale id="0" type="input_count" />
+        </scales>
+    </component>
+    
+    <component breezename="BrzSynchPush">
+        <scales>
+        	<scale id="0" type="output_count" />
+        </scales>
+    </component>
+
+</breeze2stgComponents>

@@ -74,6 +74,12 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 				</excludes>
 			</resource>
 			<resource>
+				<directory>src/main/resources/jar</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
+			</resource>
+			<resource>
 				<directory>src/assembly</directory>
 				<excludes>
 					<exclude>**/*</exclude>

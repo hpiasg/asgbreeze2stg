@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.config;
 
 /*
  * Copyright (C) 2018 Norman Kluge
