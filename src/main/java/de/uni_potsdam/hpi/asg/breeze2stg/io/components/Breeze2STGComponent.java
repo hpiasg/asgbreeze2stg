@@ -34,6 +34,20 @@ public class Breeze2STGComponent {
     private Channels channels;
     //@formatter:on
 
+    public Channel getChannelByStgName(String stgname) {
+        for(Channel chan : channels.getBalsaChannels()) {
+            if(chan.getStgName().equals(stgname)) {
+                return chan;
+            }
+        }
+        for(Channel chan : channels.getInternalChannels()) {
+            if(chan.getStgName().equals(stgname)) {
+                return chan;
+            }
+        }
+        return null;
+    }
+
     public String getBreezename() {
         return breezename;
     }
