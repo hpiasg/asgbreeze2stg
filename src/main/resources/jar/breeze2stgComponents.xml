@@ -188,66 +188,110 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
         </channels>
     </component>
 
-    <!-- new end -->
-
     <component breezename="BrzFork">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- inp, control_in -->
+            <balsachannel chanid="1" stgname="O" scale="output_count" /> <!-- out, control_out -->
+        </channels>
     </component>
 
-    <component breezename="BrzLoop" />
+    <component breezename="BrzLoop">
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- activate, control_in -->
+            <balsachannel chanid="1" stgname="O" /> <!-- activateOut, control_out -->
+        </channels>
+    </component>
 
-    <component breezename="BrzNullAdapt" />
+    <component breezename="BrzNullAdapt">
+        <channels>
+            <balsachannel chanid="0" stgname="O" /> <!-- out, control_out -->
+            <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
+        </channels>
+    </component>
 
     <component breezename="BrzPassivatorPush">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="O" scale="output_count" /> <!-- out, data_out -->
+            <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
+        </channels>
     </component>
 
     <component breezename="BrzSequence">
-        <scales>
-            <scale id="0" type="control_out" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- activate, control_in -->
+            <balsachannel chanid="1" stgname="O" scale="control_out" /> <!-- activateOut, control_out -->
+        </channels>
     </component>
 
-    <component breezename="BrzSlice" />
+    <component breezename="BrzSlice">
+        <channels>
+            <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
+            <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
+        </channels>
+    </component>
 
-    <component breezename="BrzSplit" />
+    <component breezename="BrzSplit">
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- inp, data_in -->
+            <balsachannel chanid="1" stgname="L" /> <!-- LSOut, dataA_out -->
+            <balsachannel chanid="2" stgname="M" /> <!-- MSOut, dataB_out -->
+        </channels>
+    </component>
 
     <component breezename="BrzSplitEqual">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- inp, data_in -->
+            <balsachannel chanid="1" stgname="O" scale="output_count"/> <!-- out, data_out -->
+        </channels>
     </component>
 
     <component breezename="BrzSynch">
-        <scales>
-            <scale id="0" type="input_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" scale="input_count" /> <!-- inp, control_in -->
+            <balsachannel chanid="1" stgname="O" /> <!-- out, control_out -->
+        </channels>
     </component>
 
     <component breezename="BrzSynchPush">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- inp, data_in -->
+            <balsachannel chanid="1" stgname="P" scale="output_count" /> <!-- pout, data_out -->
+            <balsachannel chanid="2" stgname="A" /> <!-- aout, extension_out -->
+        </channels>
     </component>
 
-    <component breezename="BrzUnaryFunc" />
+    <component breezename="BrzUnaryFunc">
+        <channels>
+            <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
+            <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
+            <internalchannel req="true" ack="true" stgname="D" />
+        </channels>
+    </component>
 
     <component breezename="BrzVariable">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="W" /> <!-- write, data_in -->
+            <balsachannel chanid="1" stgname="R" scale="output_count" /> <!-- read, data_out -->
+            <internalchannel req="true" ack="true" stgname="D" />
+        </channels>
     </component>
 
-    <component breezename="BrzWhile" />
+    <component breezename="BrzWhile">
+        <channels>
+            <balsachannel chanid="0" stgname="A" /> <!-- activate, control_in -->
+            <balsachannel chanid="1" stgname="G" /> <!-- guard, data_in -->
+            <balsachannel chanid="2" stgname="O" /> <!-- activateOut, control_out -->
+            <internalchannel req="true" ack="false" stgname="D" />
+            <internalchannel req="false" ack="true" stgname="F" />
+            <internalchannel req="false" ack="true" stgname="T" />
+        </channels>
+    </component>
 
     <component breezename="BrzWireFork">
-        <scales>
-            <scale id="0" type="output_count" />
-        </scales>
+        <channels>
+            <balsachannel chanid="0" stgname="I" /> <!-- inp, control_in -->
+            <balsachannel chanid="1" stgname="O" scale="output_count"/> <!-- out, control_out -->
+        </channels>
     </component>
 
 </breeze2stgComponents>
