@@ -34,6 +34,8 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale.ScaleType;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.ProtocolFile;
 import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
 import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
 import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
@@ -109,6 +111,13 @@ public class Breeze2STGMain {
         Breeze2STGComponents compConfig = Breeze2STGComponentsFile.readIn(config.breeze2stgComponentConfig);
         if(compConfig == null) {
             logger.error("Could not read breeze2stg component configurarion");
+            return -1;
+        }
+
+        // Read protocol file
+        Protocol protocol = ProtocolFile.readIn(options.getProtocolFile());
+        if(protocol == null) {
+            logger.error("Could not read protocol file " + options.getProtocolFile());
             return -1;
         }
 

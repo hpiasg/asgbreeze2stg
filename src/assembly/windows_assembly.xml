@@ -53,6 +53,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>config/**/*</include>
+				<include>protocols/**/*</include>
 			</includes>
 			<excludes>
 				<exclude>config/breez2stg_toolconfig*</exclude>

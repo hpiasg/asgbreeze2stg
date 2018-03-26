@@ -49,6 +49,9 @@ public class Breeze2STGCommandlineOptions extends CommandlineOptions {
     @Option(name = "-w", metaVar = "<workingdir>", usage = "Working directory. If not given, the value in configfile is used. If there is no entry, 'breeze2stgwork*' in the os default tmp dir is used.")
     private File workingdir = null;
 
+    @Option(name = "-p", metaVar = "<protocolfile>", required = true, usage = "The HS-protocol file to use")
+    private File protocolFile = null;
+    
     @Argument(metaVar = "breeze File", required = true)
     private File breezeFile;
 
@@ -92,5 +95,9 @@ public class Breeze2STGCommandlineOptions extends CommandlineOptions {
 
     public File getToolConfigFile() {
         return toolConfigFile;
+    }
+    
+    public File getProtocolFile() {
+        return protocolFile;
     }
 }
