@@ -22,23 +22,31 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlEnum;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class Breeze2STGComponent {
-
-    //@formatter:off
-    @XmlAttribute(name = "breezename", required = true)
-    private String breezename;
-    @XmlElement(name = "channels")
-    private Channels channels;
-    //@formatter:on
-
-    public String getBreezename() {
-        return breezename;
+public abstract class Channel {
+    @XmlEnum
+    public enum ScaleType {
+        port_count, // 
+        input_count, //
+        output_count, //
+        control_in, // 
+        control_out //
     }
 
-    public Channels getChannels() {
-        return channels;
+    //@formatter:off
+    @XmlAttribute(name = "stgname", required = true)
+    protected String stgName;
+    @XmlAttribute(name = "scale", required = false)
+    protected ScaleType scale;
+    //@formatter:on
+
+    public ScaleType getScale() {
+        return scale;
+    }
+
+    public String getStgName() {
+        return stgName;
     }
 }

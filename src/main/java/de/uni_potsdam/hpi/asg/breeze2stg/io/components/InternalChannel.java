@@ -19,23 +19,25 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class Scales {
-    @XmlElement(name = "scale")
-    private List<Scale> scales;
+public class InternalChannel extends Channel {
 
-    public Scale getScaleById(int id) {
-        for(Scale scale : scales) {
-            if(scale.getId() == id) {
-                return scale;
-            }
-        }
-        return null;
+    //@formatter:off
+    @XmlAttribute(name = "req", required = true)
+    private boolean req;
+    @XmlAttribute(name = "ack", required = true)
+    private boolean ack;
+    //@formatter:
+    
+    public boolean hasAck() {
+        return ack;
+    }
+    
+    public boolean hasReq() {
+        return req;
     }
 }

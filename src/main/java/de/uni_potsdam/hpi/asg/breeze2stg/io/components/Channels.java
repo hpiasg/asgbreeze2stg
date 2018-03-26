@@ -19,26 +19,26 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class Breeze2STGComponent {
-
+public class Channels {
     //@formatter:off
-    @XmlAttribute(name = "breezename", required = true)
-    private String breezename;
-    @XmlElement(name = "channels")
-    private Channels channels;
+    @XmlElement(name = "balsachannel")
+    private List<BalsaChannel> balsaChannels;
+    @XmlElement(name = "internalchannel")
+    private List<InternalChannel> internalChannels;
     //@formatter:on
 
-    public String getBreezename() {
-        return breezename;
+    public List<BalsaChannel> getBalsaChannels() {
+        return balsaChannels;
     }
 
-    public Channels getChannels() {
-        return channels;
+    public List<InternalChannel> getInternalChannels() {
+        return internalChannels;
     }
 }

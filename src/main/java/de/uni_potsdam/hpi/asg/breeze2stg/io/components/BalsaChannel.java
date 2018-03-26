@@ -22,31 +22,16 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlEnum;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class Scale {
-    @XmlEnum
-    public enum ScaleType {
-        port_count, // 
-        input_count, //
-        output_count, //
-        control_in, // 
-        control_out //
-    }
+public class BalsaChannel extends Channel {
 
     //@formatter:off
-    @XmlAttribute(name = "id", required = true)
-    private int id;
-    @XmlAttribute(name = "type", required = true)
-    private ScaleType type;
-    //@formatter:on
-
-    public int getId() {
-        return id;
-    }
-
-    public ScaleType getType() {
-        return type;
+    @XmlAttribute(name = "chanid", required = true)
+    private int chanid;
+    //@formatter:
+    
+    public int getChanid() {
+        return chanid;
     }
 }
