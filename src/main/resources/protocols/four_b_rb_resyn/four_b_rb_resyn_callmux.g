@@ -4,23 +4,23 @@
 .outputs aI rO rY
 .graph
 aI+ rI-
-aI- p0
-aO+ rO- p2 p3
-aO- p4
+aI- unique0
+aO+ rO- unique2 unique3
+aO- unique4
 aX+ rO+
-aX- p5
+aX- unique5
 rI+ aI+ rY+
 rI- aI-
 rO+ aO+
 rO- aO-
-rY+ rY- p1
-rY- p6
-p0 rI+
-p1 aX+
-p2 rY-
-p3 aI+
-p4 aI-
-p5 aI-
-p6 aX-
-.marking {p0}
+rY+ rY- unique1
+rY- unique6
+unique0 rI+
+unique1 aX+
+unique2 rY-
+unique3 aI+
+unique4 aI-
+unique5 aI-
+unique6 aX-
+.marking {unique0}
 .end
