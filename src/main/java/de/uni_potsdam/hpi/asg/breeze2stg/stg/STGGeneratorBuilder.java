@@ -1,5 +1,24 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
+/*
+ * Copyright (C) 2018 Norman Kluge
+ * 
+ * This file is part of ASGbreeze2stg.
+ * 
+ * ASGbreeze2stg is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * ASGbreeze2stg is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,6 +50,7 @@ public class STGGeneratorBuilder {
     }
 
     public static STGGenerator create(Breeze2STGComponents components, Protocol protocol) {
+        Map<String, STGGeneratorData> componentBlueprints = new HashMap<>();
         for(Breeze2STGComponent comp : components.getComponents()) {
             String compName = comp.getBreezename();
             File stgFile = protocol.getSTGFileForComponent(compName);
@@ -63,9 +83,13 @@ public class STGGeneratorBuilder {
                 continue;
             }
 
+            componentBlueprints.put(compName, new STGGeneratorData(compName, stg, scaledSignals, scaledTransitions, scaledPlaces));
         }
 
-        return null;
+        if(componentBlueprints.isEmpty()) {
+            return null;
+        }
+        return new STGGenerator(componentBlueprints);
     }
 
     private static Map<Place, Boolean> findScaledPlaces(STG stg, Map<Transition, Boolean> scaledTransitions) {
