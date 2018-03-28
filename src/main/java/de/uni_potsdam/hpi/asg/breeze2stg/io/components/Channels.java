@@ -19,7 +19,9 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,11 +36,24 @@ public class Channels {
     private List<InternalChannel> internalChannels;
     //@formatter:on
 
+    private Set<Channel>          allChannels;
+
     public List<BalsaChannel> getBalsaChannels() {
         return balsaChannels;
     }
 
     public List<InternalChannel> getInternalChannels() {
         return internalChannels;
+    }
+
+    public Set<Channel> getAllChannels() {
+        if(allChannels == null) {
+            allChannels = new HashSet<>();
+            allChannels.addAll(balsaChannels);
+            if(internalChannels != null) {
+                allChannels.addAll(internalChannels);
+            }
+        }
+        return allChannels;
     }
 }
