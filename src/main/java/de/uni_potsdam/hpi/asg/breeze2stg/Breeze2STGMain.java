@@ -25,17 +25,17 @@ import java.util.Arrays;
 
 import org.apache.logging.log4j.Logger;
 
-import com.google.common.base.Strings;
-
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Scale.ScaleType;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel.ScaleType;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.ProtocolFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGenerator;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGeneratorBuilder;
 import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
 import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
 import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
@@ -48,6 +48,8 @@ import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper.Mode;
 import de.uni_potsdam.hpi.asg.common.iohelper.WorkingdirGenerator;
 import de.uni_potsdam.hpi.asg.common.iohelper.Zipper;
 import de.uni_potsdam.hpi.asg.common.misc.CommonConstants;
+import de.uni_potsdam.hpi.asg.common.stg.GFile;
+import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
 public class Breeze2STGMain {
 
@@ -145,6 +147,13 @@ public class Breeze2STGMain {
             return -1;
         }
 
+        STGGenerator gen = STGGeneratorBuilder.create(compConfig, protocol);
+        if(gen == null) {
+            logger.error("Could not obtain STGGenerator");
+            return -1;
+        }
+
+        // Iterate instances
         for(HSComponentInst inst : breezeNetlist.getAllHSInstances()) {
             String compName = inst.getComp().getComp().getBreezename();
 
@@ -154,53 +163,59 @@ public class Breeze2STGMain {
                 return -1;
             }
 
-            int scaleFactor = -1;
-            if(comp.getScales() != null) {
-                Scale scale = comp.getScales().getScaleById(0);
-                if(scale == null) {
-                    logger.error("No scale with id 0 for component " + compName + " defined");
+            int scaleFactor = 0;
+            for(Channel chan : comp.getChannels().getAllChannels()) {
+                if(chan.getScale() == null) {
+                    // unscaled
+                    continue;
+                }
+                Integer chanScaleFactor = determineScale(chan.getScale(), inst);
+                if(chanScaleFactor == null) {
+                    logger.error("Scale type undefined: " + chan.getScale());
                     return -1;
                 }
-                ScaleType type = scale.getType();
-                if(type == null) {
-                    logger.error("Scale type for id 0 for component " + compName + " invalid");
-                    return -1;
+                if(scaleFactor != 0 && scaleFactor != chanScaleFactor) {
+                    logger.warn("Unequal scale factors for different channels: " + scaleFactor + ", " + chanScaleFactor + ". Using larger one");
+                    scaleFactor = (scaleFactor > chanScaleFactor) ? scaleFactor : chanScaleFactor;
                 }
-
-                switch(type) {
-                    case control_in: {
-                        int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_in).getId();
-                        scaleFactor = inst.getChan(chan_id).size();
-                    }
-                        break;
-                    case control_out: {
-                        int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_out).getId();
-                        scaleFactor = inst.getChan(chan_id).size();
-                    }
-                        break;
-                    case input_count:
-                        scaleFactor = paramToInteger(inst, ParameterType.input_count);
-                        break;
-                    case output_count:
-                        scaleFactor = paramToInteger(inst, ParameterType.output_count);
-                        break;
-                    case port_count:
-                        scaleFactor = paramToInteger(inst, ParameterType.port_count);
-                        break;
-                }
-
+                scaleFactor = chanScaleFactor;
             }
-
-          //@formatter:off
-          System.out.println(
-              Strings.padEnd(compName, 25, ' ') + 
-              Strings.padEnd((scaleFactor == 0) ? "-" : Integer.toString(scaleFactor), 5, ' ')
-          );
-          //@formatter:on
+//          //@formatter:off
+//          System.out.println(
+//              Strings.padEnd(compName, 25, ' ') + 
+////              Strings.padEnd((scaleFactor == 0) ? "-" : Integer.toString(scaleFactor), 5, ' ')
+//              Strings.padEnd(stgFile.getAbsolutePath(), 50, ' ')
+//          );
+//          //@formatter:on
+            STG stg = gen.getSTGforComponent(compName, scaleFactor);
+            if(stg == null) {
+                continue;
+            }
+            GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + ".g"));
 
         }
 
         return 0;
+    }
+
+    private static Integer determineScale(ScaleType type, HSComponentInst inst) {
+        switch(type) {
+            case control_in: {
+                int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_in).getId();
+                return inst.getChan(chan_id).size();
+            }
+            case control_out: {
+                int chan_id = inst.getComp().getComp().getChannels().getChannel(ChannelType.control_out).getId();
+                return inst.getChan(chan_id).size();
+            }
+            case input_count:
+                return paramToInteger(inst, ParameterType.input_count);
+            case output_count:
+                return paramToInteger(inst, ParameterType.output_count);
+            case port_count:
+                return paramToInteger(inst, ParameterType.port_count);
+        }
+        return null;
     }
 
     private static Integer paramToInteger(HSComponentInst inst, ParameterType param) {
