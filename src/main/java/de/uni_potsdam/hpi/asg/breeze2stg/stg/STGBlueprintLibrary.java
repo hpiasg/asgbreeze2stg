@@ -19,17 +19,28 @@ package de.uni_potsdam.hpi.asg.breeze2stg.stg;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import java.util.Map;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
-public abstract class STGGenerator {
-    protected String componentName;
-    protected STG    stg;
+public class STGBlueprintLibrary {
+    private static final Logger       logger = LogManager.getLogger();
 
-    protected STGGenerator(String componentName, STG stg) {
-        this.componentName = componentName;
-        this.stg = stg;
+    private Map<String, STGGenerator> componentBlueprints;
 
+    protected STGBlueprintLibrary(Map<String, STGGenerator> componentBlueprints) {
+        this.componentBlueprints = componentBlueprints;
     }
 
-    public abstract STG generate(int scale);
+    public STG getSTGforComponent(String compName, int scale) {
+        STGGenerator gen = componentBlueprints.get(compName);
+        if(gen == null) {
+            logger.error("No blueprint for component '" + compName + "'");
+            return null;
+        }
+        return gen.generate(scale);
+    }
 }

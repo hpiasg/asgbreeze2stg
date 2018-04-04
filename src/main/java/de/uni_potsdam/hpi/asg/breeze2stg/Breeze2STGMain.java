@@ -34,8 +34,8 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.ProtocolFile;
-import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGenerator;
-import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGeneratorBuilder;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibrary;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibraryBuilder;
 import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
 import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
 import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
@@ -147,7 +147,7 @@ public class Breeze2STGMain {
             return -1;
         }
 
-        STGGenerator gen = STGGeneratorBuilder.create(compConfig, protocol);
+        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, protocol);
         if(gen == null) {
             logger.error("Could not obtain STGGenerator");
             return -1;
@@ -177,6 +177,7 @@ public class Breeze2STGMain {
                 if(scaleFactor != 0 && scaleFactor != chanScaleFactor) {
                     logger.warn("Unequal scale factors for different channels: " + scaleFactor + ", " + chanScaleFactor + ". Using larger one");
                     scaleFactor = (scaleFactor > chanScaleFactor) ? scaleFactor : chanScaleFactor;
+                    continue;
                 }
                 scaleFactor = chanScaleFactor;
             }

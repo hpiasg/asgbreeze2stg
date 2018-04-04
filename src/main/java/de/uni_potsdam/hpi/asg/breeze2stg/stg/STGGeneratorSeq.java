@@ -21,15 +21,17 @@ package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
-public abstract class STGGenerator {
-    protected String componentName;
-    protected STG    stg;
+public class STGGeneratorSeq extends STGGenerator {
 
-    protected STGGenerator(String componentName, STG stg) {
-        this.componentName = componentName;
-        this.stg = stg;
-
+    protected STGGeneratorSeq(String componentName, STG stg) {
+        super(componentName, stg);
+        // TODO Auto-generated constructor stub
     }
 
-    public abstract STG generate(int scale);
+    @Override
+    public STG generate(int scale) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }
