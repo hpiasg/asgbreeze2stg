@@ -117,6 +117,11 @@ public class STGGeneratorPar extends STGGenerator {
                     if(scale > 1) {
                         for(int i = 1; i < scale; i++) {
                             Place p2 = copySTG.getPlaceOrAdd(p.getId() + "_" + Integer.toString(i));
+                            if(copySTG.getInitMarking().contains(p)) {
+                                // p is initially marked, so should the copy
+                                copySTG.getInitMarking().add(p2);
+                            }
+
                             // copy arcs from p
                             for(Transition preT : p.getPreset()) {
                                 switch(copyScaledTransitions.get(preT)) {
