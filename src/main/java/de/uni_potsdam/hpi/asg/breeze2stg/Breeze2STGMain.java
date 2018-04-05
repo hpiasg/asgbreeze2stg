@@ -36,6 +36,7 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.ProtocolFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibrary;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibraryBuilder;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGChannelMapper;
 import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
 import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
 import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
@@ -147,6 +148,7 @@ public class Breeze2STGMain {
             return -1;
         }
 
+        // Create STG blueprints
         STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, protocol);
         if(gen == null) {
             logger.error("Could not obtain STGGenerator");
@@ -193,7 +195,10 @@ public class Breeze2STGMain {
                 continue;
             }
             GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + ".g"));
-
+            if(!STGChannelMapper.replaceInSTG(comp, inst, stg)) {
+                continue;
+            }
+            GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + "_" + inst.getId() + ".g"));
         }
 
         return 0;
