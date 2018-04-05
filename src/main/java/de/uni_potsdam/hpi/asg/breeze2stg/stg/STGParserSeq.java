@@ -40,7 +40,7 @@ import de.uni_potsdam.hpi.asg.common.stg.model.Transition;
 public class STGParserSeq {
     private static final Logger                 logger               = LogManager.getLogger();
 
-    private static final String                 specialLastStr       = "_L_";
+    public static final String                  specialLastStr       = "_L_";
     private static final Pattern                signalPattern        = Pattern.compile("([rac])([A-Z])(" + specialLastStr + ")?");
     private static final Pattern                seqStartPlacePattern = Pattern.compile("seqStart([0-9]+)");
     private static final Pattern                seqEndPlacePattern   = Pattern.compile("seqEnd([0-9]+)");
