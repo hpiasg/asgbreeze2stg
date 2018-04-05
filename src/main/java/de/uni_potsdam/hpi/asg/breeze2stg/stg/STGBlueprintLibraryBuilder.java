@@ -37,9 +37,6 @@ import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 public class STGBlueprintLibraryBuilder {
     private static final Logger logger = LogManager.getLogger();
 
-    //private static final String  specialLastStr  = "_L_";
-    //(" + specialLastStr + ")?
-
     private STGBlueprintLibraryBuilder() {
     }
 
@@ -55,6 +52,7 @@ public class STGBlueprintLibraryBuilder {
             }
             if(!stgFile.exists()) {
                 //logger.warn("Specification file for component '" + compName + "' does not exist");
+                //TODO uncomment
                 continue;
             }
             STG stg = GFile.importFromFile(stgFile);
@@ -85,12 +83,14 @@ public class STGBlueprintLibraryBuilder {
             }
 
             if(seqMode) {
-                STGGeneratorSeq seqGen = getGeneratorSeq(comp, stg);
+                STGParserSeq seqParser = new STGParserSeq(comp, stg);
+                STGGeneratorSeq seqGen = seqParser.getGenerator();
                 if(seqGen == null) {
                     continue;
                 }
                 componentBlueprints.put(compName, seqGen);
             } else {
+                // par mode
                 STGParserPar parParser = new STGParserPar(comp, stg);
                 STGGeneratorPar parGen = parParser.getGenerator();
                 if(parGen == null) {
@@ -105,36 +105,4 @@ public class STGBlueprintLibraryBuilder {
         }
         return new STGBlueprintLibrary(componentBlueprints);
     }
-
-    private static STGGeneratorSeq getGeneratorSeq(Breeze2STGComponent comp, STG stg) {
-        return null;
-    }
-
-    /*
-     * //_L_
-            if(m.group(3) == null) {
-                //signal is normal
-                if(chan.getScale() != null) {
-                    //scaled
-                    if(retVal.containsKey(sig) && retVal.get(sig) != TransitionScaleType.scaled) {
-                        logger.error("Contradiction");
-                    }
-                    retVal.put(sig, TransitionScaleType.scaled);
-                } else {
-                    if(retVal.containsKey(sig) && retVal.get(sig) != TransitionScaleType.unique) {
-                        logger.error("Contradiction");
-                    }
-                    retVal.put(sig, TransitionScaleType.unique);
-                }
-            } else {
-                //has _L_
-                Signal parent = stg.getSignal(m.group(1) + m.group(2));
-                if(retVal.containsKey(parent) && retVal.get(parent) == TransitionScaleType.unique) {
-                    logger.error("Signal with special last should be scaled");
-                    return null;
-                }
-                retVal.put(parent, TransitionScaleType.scaledWSL);
-                retVal.put(sig, TransitionScaleType.iSL);
-            }
-     */
 }

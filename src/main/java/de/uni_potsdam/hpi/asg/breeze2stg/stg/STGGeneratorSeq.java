@@ -1,5 +1,11 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
+import java.util.Map;
+
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGeneratorSeq.SeqPlaceScaleType;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGeneratorSeq.SeqTransScaleType;
+import de.uni_potsdam.hpi.asg.common.stg.model.Place;
+
 /*
  * Copyright (C) 2018 Norman Kluge
  * 
@@ -20,12 +26,32 @@ package de.uni_potsdam.hpi.asg.breeze2stg.stg;
  */
 
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
+import de.uni_potsdam.hpi.asg.common.stg.model.Signal;
+import de.uni_potsdam.hpi.asg.common.stg.model.Transition;
 
 public class STGGeneratorSeq extends STGGenerator {
 
-    protected STGGeneratorSeq(String componentName, STG stg) {
+    public enum SeqTransScaleType {
+        scaled, unique, // default 
+        specialLast // last transition (automatically unique)
+    }
+
+    public enum SeqPlaceScaleType {
+        scaled, unique, // default 
+        seqStart, seqEnd // start/end of a sequence to copy
+    }
+
+    private Map<Signal, SeqTransScaleType>      scaledSignals;
+    private Map<Transition, SeqTransScaleType>  scaledTransitions;
+    private Map<Place, SeqPlaceScaleType>       scaledPlaces;
+    private Map<Integer, STGParserSeqPlacePair> seqPairs;
+
+    public STGGeneratorSeq(String componentName, STG stg, Map<Signal, SeqTransScaleType> scaledSignals, Map<Transition, SeqTransScaleType> scaledTransitions, Map<Place, SeqPlaceScaleType> scaledPlaces, Map<Integer, STGParserSeqPlacePair> seqPairs) {
         super(componentName, stg);
-        // TODO Auto-generated constructor stub
+        this.scaledSignals = scaledSignals;
+        this.scaledTransitions = scaledTransitions;
+        this.scaledPlaces = scaledPlaces;
+        this.seqPairs = seqPairs;
     }
 
     @Override
