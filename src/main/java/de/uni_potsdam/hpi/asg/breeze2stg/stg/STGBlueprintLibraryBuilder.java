@@ -22,9 +22,6 @@ package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,19 +30,12 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
-import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGGeneratorPar.ParScaleType;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
 import de.uni_potsdam.hpi.asg.common.stg.model.Place;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
-import de.uni_potsdam.hpi.asg.common.stg.model.Signal;
-import de.uni_potsdam.hpi.asg.common.stg.model.Transition;
 
 public class STGBlueprintLibraryBuilder {
-    private static final Logger  logger             = LogManager.getLogger();
-
-    private static final String  parScaledPlaceName = "scaled";
-    private static final String  parUniquePlaceName = "unique";
-    private static final Pattern parSignalPattern   = Pattern.compile("([rac])([A-Z])");
+    private static final Logger logger = LogManager.getLogger();
 
     //private static final String  specialLastStr  = "_L_";
     //(" + specialLastStr + ")?
@@ -90,6 +80,7 @@ public class STGBlueprintLibraryBuilder {
             for(Place p : stg.getPlaces().values()) {
                 if(p.getId().startsWith("seq")) {
                     seqMode = true;
+                    break;
                 }
             }
 
@@ -100,7 +91,8 @@ public class STGBlueprintLibraryBuilder {
                 }
                 componentBlueprints.put(compName, seqGen);
             } else {
-                STGGeneratorPar parGen = getGeneratorPar(comp, stg);
+                STGParserPar parParser = new STGParserPar(comp, stg);
+                STGGeneratorPar parGen = parParser.getGenerator();
                 if(parGen == null) {
                     continue;
                 }
@@ -116,88 +108,6 @@ public class STGBlueprintLibraryBuilder {
 
     private static STGGeneratorSeq getGeneratorSeq(Breeze2STGComponent comp, STG stg) {
         return null;
-    }
-
-    private static STGGeneratorPar getGeneratorPar(Breeze2STGComponent comp, STG stg) {
-        Map<Signal, ParScaleType> scaledSignals = findScaledSignalsPar(stg, comp);
-        if(scaledSignals == null) {
-            return null;
-        }
-
-        Map<Transition, ParScaleType> scaledTransitions = findScaledTransitionsPar(stg, scaledSignals);
-        if(scaledTransitions == null) {
-            return null;
-        }
-
-        Map<Place, ParScaleType> scaledPlaces = findScaledPlacesPar(stg, scaledTransitions);
-        if(scaledPlaces == null) {
-            return null;
-        }
-
-        return new STGGeneratorPar(comp.getBreezename(), stg, scaledSignals, scaledTransitions, scaledPlaces);
-    }
-
-    private static Map<Place, ParScaleType> findScaledPlacesPar(STG stg, Map<Transition, ParScaleType> scaledTransitions) {
-        Map<Place, ParScaleType> scaledPlaces = new HashMap<>();
-        for(Entry<String, Place> placeEntry : stg.getPlaces().entrySet()) {
-            String id = placeEntry.getKey();
-            Place place = placeEntry.getValue();
-            // check name
-            if(id.startsWith(parScaledPlaceName)) {
-                scaledPlaces.put(place, ParScaleType.scaled);
-                continue;
-            } else if(id.startsWith(parUniquePlaceName)) {
-                scaledPlaces.put(place, ParScaleType.unique);
-                continue;
-            }
-            // check surroundings
-//            if(!stg.getInitMarking().contains(place)) {
-            if(place.isMarkedGraphPlace()) {
-                Transition preT = place.getPreset().get(0);
-                Transition postT = place.getPostset().get(0);
-                if(scaledTransitions.get(preT).equals(scaledTransitions.get(postT))) {
-                    scaledPlaces.put(place, scaledTransitions.get(preT));
-                    continue;
-                }
-            }
-//            }
-            logger.warn("Not clear if place '" + place.toString() + "' of STG file '" + stg.getFile().getAbsolutePath() + "' is unique or scaled. Please specify");
-            return null;
-        }
-        return scaledPlaces;
-    }
-
-    private static Map<Transition, ParScaleType> findScaledTransitionsPar(STG stg, Map<Signal, ParScaleType> scaledSignals) {
-        Map<Transition, ParScaleType> scaledTransitions = new HashMap<>();
-        for(Transition t : stg.getTransitions()) {
-            scaledTransitions.put(t, scaledSignals.get(t.getSignal()));
-        }
-        return scaledTransitions;
-    }
-
-    private static Map<Signal, ParScaleType> findScaledSignalsPar(STG stg, Breeze2STGComponent comp) {
-        Map<Signal, ParScaleType> retVal = new HashMap<>();
-        Matcher m = null;
-        for(Signal sig : stg.getSignals()) {
-            m = parSignalPattern.matcher(sig.getName());
-            if(!m.matches()) {
-                logger.warn("Signal '" + sig.getName() + "' of STG file '" + stg.getFile().getAbsolutePath() + "' does not follow naming scheme");
-                return null;
-            }
-            //matches
-            Channel chan = comp.getChannelByStgName(m.group(2));
-            if(chan == null) {
-                logger.warn("Channel for signal '" + sig.getName() + "' of STG file '" + stg.getFile().getAbsolutePath() + "' does not follow naming scheme");
-                return null;
-            }
-            if(chan.getScale() != null) {
-                //scaled
-                retVal.put(sig, ParScaleType.scaled);
-            } else {
-                retVal.put(sig, ParScaleType.unique);
-            }
-        }
-        return retVal;
     }
 
     /*
