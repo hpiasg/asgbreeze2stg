@@ -22,9 +22,12 @@ package de.uni_potsdam.hpi.asg.breeze2stg;
 import java.io.File;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 
+import de.uni_potsdam.hpi.asg.asynctoolswrapper.PcompInvoker;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
@@ -43,6 +46,7 @@ import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
 import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Channel.ChannelType;
 import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Parameter.ParameterType;
 import de.uni_potsdam.hpi.asg.common.invoker.ExternalToolsInvoker;
+import de.uni_potsdam.hpi.asg.common.invoker.InvokeReturn;
 import de.uni_potsdam.hpi.asg.common.invoker.local.ShutdownThread;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper.Mode;
@@ -85,7 +89,7 @@ public class Breeze2STGMain {
                     return 1;
                 }
                 Runtime.getRuntime().addShutdownHook(new ShutdownThread());
-                WorkingdirGenerator.getInstance().create(options.getWorkingdir(), config.workdir, "resynwork");
+                WorkingdirGenerator.getInstance().create(options.getWorkingdir(), config.workdir, "breeze2stgwork");
                 tooldebug = options.isTooldebug();
                 logger.debug("Using tool config file " + options.getToolConfigFile());
                 if(!ExternalToolsInvoker.init(options.getToolConfigFile(), tooldebug)) {
@@ -155,6 +159,7 @@ public class Breeze2STGMain {
             return -1;
         }
 
+        Set<File> stgFiles = new HashSet<>();
         // Iterate instances
         for(HSComponentInst inst : breezeNetlist.getAllHSInstances()) {
             String compName = inst.getComp().getComp().getBreezename();
@@ -198,7 +203,15 @@ public class Breeze2STGMain {
             if(!STGChannelMapper.replaceInSTG(comp, inst, stg)) {
                 continue;
             }
-            GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + "_" + inst.getId() + ".g"));
+            File stgFile = new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + "_" + inst.getId() + ".g");
+            GFile.writeGFile(stg, stgFile);
+            stgFiles.add(stgFile);
+        }
+
+        InvokeReturn ret = PcompInvoker.parallelComposeSTGs(stgFiles, new File(WorkingdirGenerator.getInstance().getWorkingDir(), "out.g"));
+        if(ret == null || !ret.getResult()) {
+            logger.error("Pcomp failed");
+            return -1;
         }
 
         return 0;
