@@ -121,7 +121,6 @@ public class STGGeneratorPar extends STGGenerator {
                                 // p is initially marked, so should the copy
                                 copySTG.getInitMarking().add(p2);
                             }
-
                             // copy arcs from p
                             for(Transition preT : p.getPreset()) {
                                 switch(copyScaledTransitions.get(preT)) {
