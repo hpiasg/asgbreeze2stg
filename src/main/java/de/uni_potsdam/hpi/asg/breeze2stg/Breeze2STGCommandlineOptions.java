@@ -51,6 +51,9 @@ public class Breeze2STGCommandlineOptions extends CommandlineOptions {
 
     @Option(name = "-p", metaVar = "<protocolfile>", required = true, usage = "The HS-protocol file to use")
     private File protocolFile = null;
+    @Option(name = "-out", metaVar = "<g file>", required = true, usage = "The outfile containing the Breeze-STG")
+    private File outFile = null;
+    
     
     @Argument(metaVar = "breeze File", required = true)
     private File breezeFile;
@@ -99,5 +102,9 @@ public class Breeze2STGCommandlineOptions extends CommandlineOptions {
     
     public File getProtocolFile() {
         return protocolFile;
+    }
+    
+    public File getOutFile() {
+        return outFile;
     }
 }

@@ -45,6 +45,7 @@ import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
 import de.uni_potsdam.hpi.asg.common.invoker.ExternalToolsInvoker;
 import de.uni_potsdam.hpi.asg.common.invoker.InvokeReturn;
 import de.uni_potsdam.hpi.asg.common.invoker.local.ShutdownThread;
+import de.uni_potsdam.hpi.asg.common.iohelper.FileHelper;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper.Mode;
 import de.uni_potsdam.hpi.asg.common.iohelper.WorkingdirGenerator;
@@ -182,9 +183,13 @@ public class Breeze2STGMain {
             stgFiles.add(stgFile);
         }
 
-        InvokeReturn ret = PcompInvoker.parallelComposeSTGs(stgFiles, new File(WorkingdirGenerator.getInstance().getWorkingDir(), "out.g"));
+        File tmpOut = new File(WorkingdirGenerator.getInstance().getWorkingDir(), "out.g");
+        InvokeReturn ret = PcompInvoker.parallelComposeSTGs(stgFiles, tmpOut);
         if(ret == null || !ret.getResult()) {
             logger.error("Pcomp failed");
+            return -1;
+        }
+        if(!FileHelper.getInstance().copyfile(tmpOut, options.getOutFile())) {
             return -1;
         }
 
