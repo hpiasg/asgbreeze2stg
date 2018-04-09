@@ -30,7 +30,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-@XmlRootElement(name = "protocol")
+@XmlRootElement(name = "stgindex")
 @XmlAccessorType(XmlAccessType.NONE)
 public class Protocol {
     protected static final Logger   logger = LogManager.getLogger();

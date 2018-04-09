@@ -53,7 +53,6 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>config/**/*</include>
-				<include>protocols/**/*</include>
 			</includes>
 			<excludes>
 				<exclude>config/breez2stg_toolconfig*</exclude>
@@ -82,6 +81,13 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 		</fileSet>
         <fileSet>
 			<directory>${project.build.directory}/asgwrapper-asgtools</directory>
+			<outputDirectory>.</outputDirectory>
+			<includes>
+				<include>**/*</include>
+			</includes>
+		</fileSet>
+		<fileSet>
+			<directory>${project.build.directory}/asgprotocols</directory>
 			<outputDirectory>.</outputDirectory>
 			<includes>
 				<include>**/*</include>

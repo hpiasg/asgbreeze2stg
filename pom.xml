@@ -48,6 +48,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<desij.version>3.1.2</desij.version>
 		<common.version>4.0.0-SNAPSHOT</common.version>
+		<protocols.version>1.0.0-SNAPSHOT</protocols.version>
 		<wrapper-async.version>1.0.0-SNAPSHOT</wrapper-async.version>
 		<wrapper-asg.version>1.0.0-SNAPSHOT</wrapper-asg.version>
 	</properties>
@@ -246,6 +247,14 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 											<type>tar.gz</type>
 											<outputDirectory>${project.build.directory}</outputDirectory>
 										</artifactItem>
+										<artifactItem>
+											<groupId>de.uni_potsdam.hpi.asg</groupId>
+											<artifactId>asgprotocols</artifactId>
+											<version>${protocols.version}</version>
+											<classifier>unix</classifier>
+											<type>tar.gz</type>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
 									</artifactItems>
 								</configuration>
 							</execution>
@@ -285,6 +294,14 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										</exec>
 										<exec executable="cmd" osfamily="windows">
 											<arg line="/c move ${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+										</exec>
+										<!-- Protocols -->
+										<exec executable="mv" osfamily="unix">
+											<arg
+												line="${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
+										</exec>
+										<exec executable="cmd" osfamily="windows">
+											<arg line="/c move ${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 									</target>
 								</configuration>
@@ -400,6 +417,14 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 											<type>zip</type>
 											<outputDirectory>${project.build.directory}</outputDirectory>
 										</artifactItem>
+										<artifactItem>
+											<groupId>de.uni_potsdam.hpi.asg</groupId>
+											<artifactId>asgprotocols</artifactId>
+											<version>${protocols.version}</version>
+											<classifier>win</classifier>
+											<type>zip</type>
+											<outputDirectory>${project.build.directory}</outputDirectory>
+										</artifactItem>
 									</artifactItems>
 								</configuration>
 							</execution>
@@ -439,6 +464,14 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										</exec>
 										<exec executable="cmd" osfamily="windows">
 											<arg line="/c move ${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+										</exec>
+										<!-- Protocols -->
+										<exec executable="mv" osfamily="unix">
+											<arg
+												line="${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
+										</exec>
+										<exec executable="cmd" osfamily="windows">
+											<arg line="/c move ${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 									</target>
 								</configuration>
