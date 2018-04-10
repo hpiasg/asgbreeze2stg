@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<xs:schema version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="stgindex" type="stgIndex"/>
+
+  <xs:complexType name="stgIndex">
+    <xs:sequence>
+      <xs:element name="component" type="stgComponent" minOccurs="0" maxOccurs="unbounded"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="stgComponent">
+    <xs:sequence/>
+    <xs:attribute name="breezename" type="xs:string" use="required"/>
+    <xs:attribute name="stgfile" type="xs:string" use="required"/>
+  </xs:complexType>
+</xs:schema>
+
