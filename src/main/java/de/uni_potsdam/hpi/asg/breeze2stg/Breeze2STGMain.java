@@ -34,8 +34,8 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.ProtocolFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndex;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndexFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibrary;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibraryBuilder;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGChannelMapper;
@@ -120,7 +120,7 @@ public class Breeze2STGMain {
         }
 
         // Read protocol file
-        Protocol protocol = ProtocolFile.readIn(options.getProtocolFile());
+        STGIndex protocol = STGIndexFile.readIn(options.getProtocolFile());
         if(protocol == null) {
             logger.error("Could not read protocol file " + options.getProtocolFile());
             return -1;

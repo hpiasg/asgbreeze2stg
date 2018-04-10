@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io.protocol;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex;
 
 /*
  * Copyright (C) 2018 Norman Kluge
@@ -24,7 +24,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.NONE)
-public class ProtocolComponent {
+public class STGComponent {
 
     //@formatter:off
     @XmlAttribute(name = "breezename", required = true)

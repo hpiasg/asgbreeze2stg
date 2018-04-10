@@ -29,7 +29,7 @@ import org.apache.logging.log4j.Logger;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.protocol.Protocol;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndex;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
 import de.uni_potsdam.hpi.asg.common.stg.model.Place;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
@@ -40,7 +40,7 @@ public class STGBlueprintLibraryBuilder {
     private STGBlueprintLibraryBuilder() {
     }
 
-    public static STGBlueprintLibrary create(Breeze2STGComponents components, Protocol protocol) {
+    public static STGBlueprintLibrary create(Breeze2STGComponents components, STGIndex protocol) {
         Map<String, STGGenerator> componentBlueprints = new HashMap<>();
         for(Breeze2STGComponent comp : components.getComponents()) {
             String compName = comp.getBreezename();

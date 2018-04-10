@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io.protocol;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex;
 
 /*
  * Copyright (C) 2018 Norman Kluge
@@ -32,15 +32,15 @@ import javax.xml.bind.Unmarshaller;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class ProtocolFile {
+public class STGIndexFile {
     private static final Logger logger = LogManager.getLogger();
 
-    public static Protocol readIn(File file) {
+    public static STGIndex readIn(File file) {
         try {
-            JAXBContext jaxbContext = JAXBContext.newInstance(Protocol.class);
+            JAXBContext jaxbContext = JAXBContext.newInstance(STGIndex.class);
             Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
             if(file.exists()) {
-                Protocol retVal = (Protocol)jaxbUnmarshaller.unmarshal(file);
+                STGIndex retVal = (STGIndex)jaxbUnmarshaller.unmarshal(file);
                 retVal.setProtocolDir(file.getParentFile());
                 return retVal;
             } else {
@@ -53,10 +53,10 @@ public class ProtocolFile {
         }
     }
 
-    public static boolean writeOut(Protocol comps, File file) {
+    public static boolean writeOut(STGIndex comps, File file) {
         try {
             Writer fw = new FileWriter(file);
-            JAXBContext context = JAXBContext.newInstance(Protocol.class);
+            JAXBContext context = JAXBContext.newInstance(STGIndex.class);
             Marshaller m = context.createMarshaller();
             m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             m.marshal(comps, fw);

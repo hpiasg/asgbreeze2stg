@@ -1,4 +1,4 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io.protocol;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex;
 
 /*
  * Copyright (C) 2018 Norman Kluge
@@ -32,25 +32,25 @@ import org.apache.logging.log4j.Logger;
 
 @XmlRootElement(name = "stgindex")
 @XmlAccessorType(XmlAccessType.NONE)
-public class Protocol {
+public class STGIndex {
     protected static final Logger   logger = LogManager.getLogger();
 
     //@formatter:off
     @XmlElement(name = "component")
-    private List<ProtocolComponent> components;
+    private List<STGComponent> components;
     //@formatter:on
 
     private File                    protocolDir;
 
-    protected Protocol() {
+    protected STGIndex() {
     }
 
-    public List<ProtocolComponent> getComponents() {
+    public List<STGComponent> getComponents() {
         return components;
     }
 
     public File getSTGFileForComponent(String name) {
-        for(ProtocolComponent comp : components) {
+        for(STGComponent comp : components) {
             if(comp.getBreezename().equals(name)) {
                 return new File(protocolDir, comp.getStgFileName());
             }
