@@ -34,8 +34,6 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndex;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndexFile;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibrary;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibraryBuilder;
 import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGChannelMapper;
@@ -53,6 +51,8 @@ import de.uni_potsdam.hpi.asg.common.iohelper.Zipper;
 import de.uni_potsdam.hpi.asg.common.misc.CommonConstants;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
+import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndex;
+import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndexFile;
 
 public class Breeze2STGMain {
 

@@ -29,10 +29,10 @@ import org.apache.logging.log4j.Logger;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.stgindex.STGIndex;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
 import de.uni_potsdam.hpi.asg.common.stg.model.Place;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
+import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndex;
 
 public class STGBlueprintLibraryBuilder {
     private static final Logger logger = LogManager.getLogger();
