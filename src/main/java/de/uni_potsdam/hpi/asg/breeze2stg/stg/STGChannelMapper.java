@@ -52,7 +52,7 @@ public class STGChannelMapper {
             }
             String signalType = m.group(1);
             String channelName = m.group(2);
-            int channelId = (m.group(3).equals("")) ? 0 : Integer.parseInt(m.group(3));
+            int scaleId = (m.group(3).equals("")) ? 0 : Integer.parseInt(m.group(3));
             Channel chan = comp.getChannelByStgName(channelName);
             if(chan == null) {
                 System.out.println();
@@ -64,12 +64,14 @@ public class STGChannelMapper {
                 int balsaid = bchan.getChanid();
                 List<HSChannel> chans = inst.getChan(balsaid);
                 if(signalType.equals("c")) {
-                    newChannelName = Integer.toString(chans.get(channelId).getId()) + "_" + inst.getId();
+                    // csc signal => component specific
+                    newChannelName = Integer.toString(chans.get(scaleId).getId()) + "_" + inst.getId();
                 } else {
-                    newChannelName = Integer.toString(chans.get(channelId).getId());
+                    // req or ack => parallel composition
+                    newChannelName = Integer.toString(chans.get(scaleId).getId());
                 }
             } else if(chan instanceof InternalChannel) {
-                newChannelName = channelName + "_" + inst.getId();
+                newChannelName = channelName + m.group(3) + "_" + inst.getId();
             } else {
                 logger.error("Unkwnon channel type");
                 return false;
