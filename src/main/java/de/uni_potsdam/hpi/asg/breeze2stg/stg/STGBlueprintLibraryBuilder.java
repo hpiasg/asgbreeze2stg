@@ -51,8 +51,7 @@ public class STGBlueprintLibraryBuilder {
                 continue;
             }
             if(!stgFile.exists()) {
-                //logger.warn("Specification file for component '" + compName + "' does not exist");
-                //TODO uncomment
+                logger.warn("Specification file for component '" + compName + "' does not exist");
                 continue;
             }
             STG stg = GFile.importFromFile(stgFile);
