@@ -31,6 +31,9 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
         <tool name="mpsat">
             <cmdline>$BASEDIR/tools/mpsat/mpsat</cmdline>
         </tool>
+        <tool name="pcomp">
+            <cmdline>$BASEDIR/tools/pcomp/pcomp</cmdline>
+        </tool>
 	</tools>
 	<remotes />
 </toolsconfig>
