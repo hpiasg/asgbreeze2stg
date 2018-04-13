@@ -51,6 +51,8 @@ import de.uni_potsdam.hpi.asg.common.iohelper.Zipper;
 import de.uni_potsdam.hpi.asg.common.misc.CommonConstants;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
+import de.uni_potsdam.hpi.asg.protocols.io.main.Protocol;
+import de.uni_potsdam.hpi.asg.protocols.io.main.ReadProtocolHelper;
 import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndex;
 import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndexFile;
 
@@ -120,9 +122,8 @@ public class Breeze2STGMain {
         }
 
         // Read protocol file
-        STGIndex protocol = STGIndexFile.readIn(options.getProtocolFile());
-        if(protocol == null) {
-            logger.error("Could not read protocol file " + options.getProtocolFile());
+        STGIndex stgIndex = readProtocol();
+        if(stgIndex == null) {
             return -1;
         }
 
@@ -151,7 +152,7 @@ public class Breeze2STGMain {
         }
 
         // Create STG blueprints
-        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, protocol);
+        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, stgIndex);
         if(gen == null) {
             logger.error("Could not obtain STGGenerator");
             return -1;
@@ -194,6 +195,30 @@ public class Breeze2STGMain {
         }
 
         return 0;
+    }
+
+    private static STGIndex readProtocol() {
+        Protocol protocol = ReadProtocolHelper.readFromName(options.getProtocol());
+        if(protocol == null) {
+            return null;
+        }
+        File stgIndexFile = protocol.getStgIndexFile();
+        if(stgIndexFile == null) {
+            logger.error("STGIndex file undefined in protocol '" + options.getProtocol() + "'");
+            return null;
+        }
+        if(!stgIndexFile.exists()) {
+            logger.error("Missing STGIndex file '" + stgIndexFile.getAbsolutePath() + "'");
+            return null;
+        }
+
+        STGIndex stgIndex = STGIndexFile.readIn(stgIndexFile);
+        if(stgIndex == null) {
+            logger.error("Could not read STGIndex file '" + stgIndexFile + "'");
+            return null;
+        }
+
+        return stgIndex;
     }
 
     /**
