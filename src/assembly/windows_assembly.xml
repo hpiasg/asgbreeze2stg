@@ -65,13 +65,13 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 				<include>*</include>
 			</includes>
 		</fileSet>
-		<fileSet>
-			<directory>${project.build.directory}/desij</directory>
-			<outputDirectory>.</outputDirectory>
-			<includes>
-				<include>**/*</include>
-			</includes>
-		</fileSet>
+<!-- 		<fileSet> -->
+<!-- 			<directory>${project.build.directory}/desij</directory> -->
+<!-- 			<outputDirectory>.</outputDirectory> -->
+<!-- 			<includes> -->
+<!-- 				<include>**/*</include> -->
+<!-- 			</includes> -->
+<!-- 		</fileSet> -->
 		<fileSet>
 			<directory>${project.build.directory}/asgwrapper-asynctools</directory>
 			<outputDirectory>.</outputDirectory>
@@ -79,13 +79,13 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 				<include>**/*</include>
 			</includes>
 		</fileSet>
-        <fileSet>
-			<directory>${project.build.directory}/asgwrapper-asgtools</directory>
-			<outputDirectory>.</outputDirectory>
-			<includes>
-				<include>**/*</include>
-			</includes>
-		</fileSet>
+<!--         <fileSet> -->
+<!-- 			<directory>${project.build.directory}/asgwrapper-asgtools</directory> -->
+<!-- 			<outputDirectory>.</outputDirectory> -->
+<!-- 			<includes> -->
+<!-- 				<include>**/*</include> -->
+<!-- 			</includes> -->
+<!-- 		</fileSet> -->
 		<fileSet>
 			<directory>${project.build.directory}/asgprotocols</directory>
 			<outputDirectory>.</outputDirectory>
