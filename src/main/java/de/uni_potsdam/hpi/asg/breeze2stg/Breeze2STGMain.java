@@ -173,7 +173,8 @@ public class Breeze2STGMain {
 
             STG stg = gen.getSTGforComponent(compName, scaleFactor);
             if(stg == null) {
-                continue;
+                logger.error("Blueprint for component " + compName + " not found");
+                return -1;
             }
             GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + ".g"));
             if(!STGChannelMapper.replaceInSTG(comp, inst, stg)) {
