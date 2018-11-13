@@ -29,7 +29,7 @@ import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
 import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Channel.ChannelType;
 import de.uni_potsdam.hpi.asg.common.breeze.model.xml.Parameter.ParameterType;
 
-public class ScaleAcertainor {
+public class ScaleAscertainor {
     private static final Logger logger = LogManager.getLogger();
 
     public static int getScale(Breeze2STGComponent comp, HSComponentInst inst) {

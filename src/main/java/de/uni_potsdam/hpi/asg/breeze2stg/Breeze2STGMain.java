@@ -28,7 +28,7 @@ import java.util.Set;
 import org.apache.logging.log4j.Logger;
 
 import de.uni_potsdam.hpi.asg.asynctoolswrapper.PcompInvoker;
-import de.uni_potsdam.hpi.asg.breeze2stg.components.ScaleAcertainor;
+import de.uni_potsdam.hpi.asg.breeze2stg.components.ScaleAscertainor;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
@@ -169,7 +169,7 @@ public class Breeze2STGMain {
                 return -1;
             }
 
-            int scaleFactor = ScaleAcertainor.getScale(comp, inst);
+            int scaleFactor = ScaleAscertainor.getScale(comp, inst);
 
             STG stg = gen.getSTGforComponent(compName, scaleFactor);
             if(stg == null) {
