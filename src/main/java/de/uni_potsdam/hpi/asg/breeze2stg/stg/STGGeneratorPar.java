@@ -34,7 +34,7 @@ import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 import de.uni_potsdam.hpi.asg.common.stg.model.Signal;
 import de.uni_potsdam.hpi.asg.common.stg.model.Transition;
 
-public class STGGeneratorPar extends STGGenerator {
+public class STGGeneratorPar extends STGGeneratorBlueprint {
 
     public enum ParScaleType {
         scaled, unique

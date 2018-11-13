@@ -152,7 +152,7 @@ public class Breeze2STGMain {
         }
 
         // Create STG blueprints
-        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, stgIndex);
+        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, stgIndex, options.getProtocol());
         if(gen == null) {
             logger.error("Could not obtain STGGenerator");
             return -1;

@@ -1,7 +1,5 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
-import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
-
 /*
  * Copyright (C) 2018 Norman Kluge
  * 
@@ -21,16 +19,14 @@ import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
 public abstract class STGGenerator {
     protected String componentName;
-    protected STG    stg;
 
-    protected STGGenerator(String componentName, STG stg) {
+    public STGGenerator(String componentName) {
         this.componentName = componentName;
-        this.stg = stg;
-
     }
 
     public abstract STG generate(int scale, HSComponentType type);
