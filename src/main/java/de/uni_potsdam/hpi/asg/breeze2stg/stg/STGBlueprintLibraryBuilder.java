@@ -30,7 +30,6 @@ import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
 import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Channel;
 import de.uni_potsdam.hpi.asg.common.stg.GFile;
-import de.uni_potsdam.hpi.asg.common.stg.model.Place;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndex;
 
@@ -73,30 +72,13 @@ public class STGBlueprintLibraryBuilder {
                 continue;
             }
 
-            boolean seqMode = false;
-            for(Place p : stg.getPlaces().values()) {
-                if(p.getId().startsWith("seq")) {
-                    seqMode = true;
-                    break;
-                }
+            // par mode
+            STGParserPar parParser = new STGParserPar(comp, stg);
+            STGGeneratorPar parGen = parParser.getGenerator();
+            if(parGen == null) {
+                continue;
             }
-
-            if(seqMode) {
-                STGParserSeq seqParser = new STGParserSeq(comp, stg);
-                STGGeneratorSeq seqGen = seqParser.getGenerator();
-                if(seqGen == null) {
-                    continue;
-                }
-                componentBlueprints.put(compName, seqGen);
-            } else {
-                // par mode
-                STGParserPar parParser = new STGParserPar(comp, stg);
-                STGGeneratorPar parGen = parParser.getGenerator();
-                if(parGen == null) {
-                    continue;
-                }
-                componentBlueprints.put(compName, parGen);
-            }
+            componentBlueprints.put(compName, parGen);
         }
 
         if(componentBlueprints.isEmpty()) {
