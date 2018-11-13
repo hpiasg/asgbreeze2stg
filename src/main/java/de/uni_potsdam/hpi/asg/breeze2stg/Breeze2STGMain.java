@@ -171,7 +171,7 @@ public class Breeze2STGMain {
 
             int scaleFactor = ScaleAscertainor.getScale(comp, inst);
 
-            STG stg = gen.getSTGforComponent(compName, scaleFactor);
+            STG stg = gen.getSTGforComponent(compName, scaleFactor, inst.getType());
             if(stg == null) {
                 logger.error("Blueprint for component " + compName + " not found");
                 return -1;

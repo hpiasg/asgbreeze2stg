@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
 public class STGBlueprintLibrary {
@@ -35,12 +36,12 @@ public class STGBlueprintLibrary {
         this.componentBlueprints = componentBlueprints;
     }
 
-    public STG getSTGforComponent(String compName, int scale) {
+    public STG getSTGforComponent(String compName, int scale, HSComponentType type) {
         STGGenerator gen = componentBlueprints.get(compName);
         if(gen == null) {
             logger.error("No blueprint for component '" + compName + "'");
             return null;
         }
-        return gen.generate(scale);
+        return gen.generate(scale, type);
     }
 }

@@ -27,6 +27,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.Map.Entry;
 
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
 import de.uni_potsdam.hpi.asg.common.stg.STGCopy;
 import de.uni_potsdam.hpi.asg.common.stg.model.Place;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
@@ -51,6 +52,10 @@ public class STGGeneratorPar extends STGGenerator {
     }
 
     @Override
+    public STG generate(int scale, HSComponentType type) {
+        return generate(scale); // type not needed
+    }
+
     public STG generate(int scale) {
         STGCopy copyActor = new STGCopy(stg);
         STG copySTG = copyActor.getCopy();

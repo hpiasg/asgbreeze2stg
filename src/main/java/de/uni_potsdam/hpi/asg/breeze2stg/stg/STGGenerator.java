@@ -1,5 +1,7 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
+
 /*
  * Copyright (C) 2018 Norman Kluge
  * 
@@ -31,5 +33,5 @@ public abstract class STGGenerator {
 
     }
 
-    public abstract STG generate(int scale);
+    public abstract STG generate(int scale, HSComponentType type);
 }

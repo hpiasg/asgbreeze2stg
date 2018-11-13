@@ -1,8 +1,5 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.stg;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 /*
  * Copyright (C) 2018 Norman Kluge
  * 
@@ -22,6 +19,11 @@ import org.apache.logging.log4j.Logger;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentType;
+
 import de.uni_potsdam.hpi.asg.common.stg.STGCopy;
 import de.uni_potsdam.hpi.asg.common.stg.model.STG;
 
@@ -33,6 +35,10 @@ public class STGGeneratorUnscaled extends STGGenerator {
     }
 
     @Override
+    public STG generate(int scale, HSComponentType type) {
+        return generate(scale); // type not needed
+    }
+
     public STG generate(int scale) {
         if(scale != 0) {
             logger.warn("Component is unscaled, but a scale factor of '" + scale + "' was given. Ignoring");
