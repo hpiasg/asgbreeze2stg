@@ -51,7 +51,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
             <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
             <balsachannel chanid="1" stgname="A" /> <!-- inpA, dataA_in -->
             <balsachannel chanid="2" stgname="B" /> <!-- inpB, dataB_in -->
-            <internalchannel req="true" ack="true" stgname="D" />
+            <internalchannel req="true" ack="false" stgname="Y" />
+            <internalchannel req="false" ack="true" stgname="X" />
         </channels>
     </component>
 
@@ -59,7 +60,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
         <channels>
             <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
             <balsachannel chanid="1" stgname="I" /> <!-- inp, dataA_in -->
-            <internalchannel req="true" ack="true" stgname="D" />
+            <internalchannel req="true" ack="false" stgname="Y" />
+            <internalchannel req="false" ack="true" stgname="X" />
         </channels>
     </component>
 
@@ -99,13 +101,15 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
     <component breezename="BrzCaseFetch">
         <channels>
             <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
-            <balsachannel chanid="1" stgname="K" /> <!-- index, index_in -->
+            <balsachannel chanid="1" stgname="N" /> <!-- index, index_in -->
             <balsachannel chanid="2" stgname="I" scale="input_count" /> <!-- inp, data_in -->
-            <internalchannel req="true" ack="true" stgname="C" />
             <internalchannel req="true" ack="false" stgname="D" />
-            <internalchannel req="false" ack="true" stgname="E" scale="input_count" />
-            <internalchannel req="true" ack="false" stgname="F" scale="input_count" />
+            <internalchannel req="true" ack="false" stgname="E" />
+            <internalchannel req="false" ack="true" stgname="F" scale="input_count" />
             <internalchannel req="false" ack="true" stgname="G" />
+            <internalchannel req="true" ack="false" stgname="H" />
+            <internalchannel req="true" ack="false" stgname="K" scale="input_count" />
+            <internalchannel req="false" ack="true" stgname="L" />
         </channels>
     </component>
 
@@ -126,7 +130,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 
     <component breezename="BrzConcur">
         <channels>
-            <balsachannel chanid="0" stgname="I" /> <!-- activate, control_in -->
+            <balsachannel chanid="0" stgname="A" /> <!-- activate, control_in -->
             <balsachannel chanid="1" stgname="O" scale="control_out"/> <!-- activateOut, control_out -->
         </channels>
     </component>
@@ -213,6 +217,9 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
         <channels>
             <balsachannel chanid="0" stgname="O" scale="output_count" /> <!-- out, data_out -->
             <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
+            <internalchannel req="true" ack="false" stgname="D" />
+            <internalchannel req="true" ack="false" stgname="Y" />
+            <internalchannel req="false" ack="true" stgname="X" />
         </channels>
     </component>
 
@@ -255,8 +262,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
     <component breezename="BrzSynchPush">
         <channels>
             <balsachannel chanid="0" stgname="I" /> <!-- inp, data_in -->
-            <balsachannel chanid="1" stgname="P" scale="output_count" /> <!-- pout, data_out -->
-            <balsachannel chanid="2" stgname="A" /> <!-- aout, extension_out -->
+            <balsachannel chanid="1" stgname="O" scale="output_count" /> <!-- pout, data_out -->
+            <balsachannel chanid="2" stgname="E" /> <!-- aout, extension_out -->
         </channels>
     </component>
 
@@ -264,7 +271,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
         <channels>
             <balsachannel chanid="0" stgname="O" /> <!-- out, data_out -->
             <balsachannel chanid="1" stgname="I" /> <!-- inp, data_in -->
-            <internalchannel req="true" ack="true" stgname="D" />
+            <internalchannel req="true" ack="false" stgname="Y" />
+            <internalchannel req="false" ack="true" stgname="X" />
         </channels>
     </component>
 
