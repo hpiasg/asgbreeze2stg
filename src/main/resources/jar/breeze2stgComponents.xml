@@ -225,7 +225,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 
     <component breezename="BrzSequence">
         <channels>
-            <balsachannel chanid="0" stgname="I" /> <!-- activate, control_in -->
+            <balsachannel chanid="0" stgname="A" /> <!-- activate, control_in -->
             <balsachannel chanid="1" stgname="O" scale="control_out" /> <!-- activateOut, control_out -->
         </channels>
     </component>
