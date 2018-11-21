@@ -82,7 +82,6 @@ public class STGBlueprintLibraryBuilder {
 
     @SuppressWarnings({"rawtypes", "unchecked", "resource"})
     private static STGGenerator useClassMode(String protocolName, Breeze2STGComponent comp, String className) {
-        String compName = comp.getBreezename();
         File protocolDir = new File(CommonConstants.DEF_PROTOCOL_DIR_FILE, protocolName);
         if(!protocolDir.exists() || !protocolDir.isDirectory()) {
             logger.error("Could not find protocol dir '" + protocolDir.getAbsolutePath() + "'");
@@ -99,7 +98,7 @@ public class STGBlueprintLibraryBuilder {
             URL[] urls = new URL[]{url};
             ClassLoader cl = new URLClassLoader(urls);
             Class cls = cl.loadClass(className);
-            return (STGGenerator)cls.getDeclaredConstructor(String.class).newInstance(compName);
+            return (STGGenerator)cls.getDeclaredConstructor(Breeze2STGComponent.class).newInstance(comp);
         } catch(Exception e) {
             logger.error(e.getLocalizedMessage());
             return null;
