@@ -32,7 +32,8 @@ public abstract class Channel {
         input_count, //
         output_count, //
         control_in, // 
-        control_out //
+        control_out, //
+        guard_count
     }
 
     //@formatter:off

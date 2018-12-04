@@ -70,6 +70,8 @@ public class ScaleAscertainor {
                 return paramToInteger(inst, ParameterType.output_count);
             case port_count:
                 return paramToInteger(inst, ParameterType.port_count);
+            case guard_count:
+                return paramToInteger(inst, ParameterType.guard_count);
         }
         return null;
     }
