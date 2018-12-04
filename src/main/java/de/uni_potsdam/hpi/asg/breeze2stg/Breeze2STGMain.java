@@ -178,7 +178,8 @@ public class Breeze2STGMain {
             }
             GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + ".g"));
             if(!STGChannelMapper.replaceInSTG(comp, inst, stg)) {
-                continue;
+                logger.error("Breeze2STG channel mapping for component " + compName + " failed");
+                return -1;
             }
             File stgFile = new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + "_" + inst.getId() + ".g");
             GFile.writeGFile(stg, stgFile);

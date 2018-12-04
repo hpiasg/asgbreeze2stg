@@ -52,10 +52,12 @@ public class STGChannelMapper {
             }
             String signalType = m.group(1);
             String channelName = m.group(2);
+
             int scaleId = (m.group(3).equals("")) ? 0 : Integer.parseInt(m.group(3));
             Channel chan = comp.getChannelByStgName(channelName);
             if(chan == null) {
-                System.out.println();
+                logger.error("Channel for signal '" + sig + "' not found");
+                return false;
             }
 
             String newChannelName = null;
