@@ -45,6 +45,21 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
             <internalchannel req="true" ack="true" stgname="F" />
         </channels>
     </component>
+    
+    <component breezename="BrzBar">
+        <channels>
+            <balsachannel chanid="0" stgname="G" /> <!-- guard -->
+            <balsachannel chanid="1" stgname="A" /> <!-- activate -->
+            <balsachannel chanid="2" stgname="I" scale="guard_count" /> <!-- guardInput -->
+            <balsachannel chanid="3" stgname="O" scale="guard_count" /> <!-- activateOut -->
+            <internalchannel req="true" ack="false" stgname="D" />
+            <internalchannel req="false" ack="true" stgname="E" />
+            <internalchannel req="true" ack="false" stgname="K" />
+            <internalchannel req="false" ack="true" stgname="L" scale="guard_count" />
+            <internalchannel req="false" ack="true" stgname="M" />
+        </channels>
+    </component>
+    
 
     <component breezename="BrzBinaryFunc">
         <channels>
