@@ -86,8 +86,8 @@ public class STGParserPar {
             // check surroundings
 //            if(!stg.getInitMarking().contains(place)) {
             if(place.isMarkedGraphPlace()) {
-                Transition preT = place.getPreset().get(0);
-                Transition postT = place.getPostset().get(0);
+                Transition preT = place.getPreset().iterator().next();
+                Transition postT = place.getPostset().iterator().next();
                 if(scaledTransitions.get(preT).equals(scaledTransitions.get(postT))) {
                     scaledPlaces.put(place, scaledTransitions.get(preT));
                     continue;
