@@ -1,11 +1,22 @@
-ASGbreeze2stg v1.0
-Copyright (C) 2018 Hasso-Plattner-Institut fuer Softwaresystemtechnik GmbH
+ASGbreeze2stg v1.0.1
+Copyright (C) 2018-2022 Hasso-Plattner-Institut für Digital Engineering gGmbH
 
-This product includes software developed at Hasso-Plattner-Institut fuer Softwaresystemtechnik GmbH.
-The Software developed and owned by the Hasso-Plattner-Institut fuer Softwaresystemtechnik GmbH is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 ("GPL") to all third parties and that license, as required by the GPL, is included in the LICENSE.txt file.
+This product includes software developed at Hasso-Plattner-Institut für Digital Engineering gGmbH.
+The Software developed and owned by the Hasso-Plattner-Institut für Digital Engineering gGmbH is licensed under the GNU GENERAL PUBLIC LICENSE Version 3 ("GPL") to all third parties and that license, as required by the GPL, is included in the LICENSE.txt file.
 
 This software makes use of the following libraries:
 
+ASGcommon v4.0.4
+https://github.com/hpiasg/asgcommon
+Copyright 2012-2022 Universitaet Augsburg, Hasso-Plattner-Institut fuer Softwaresystemtechnik GmbH
+Licensed under the GNU General Public License Version 3
 
-This software makes use of the following external software:
+ASGprotocols v1.0.1
+https://github.com/hpiasg/asgprotocols
+Copyright 2018-2022 Hasso-Plattner-Institut für Digital Engineering gGmbH
+Licensed under the GNU General Public License Version 3
 
+ASGwrapper-asynctools v1.1.1
+https://github.com/hpiasg/asgwrapper-asynctools
+Copyright 2017-2022 Hasso-Plattner-Institut für Digital Engineering gGmbH
+Licensed under the GNU General Public License Version 3
