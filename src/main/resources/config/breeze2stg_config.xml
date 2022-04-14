@@ -18,6 +18,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
 <breeze2stgconfig>
-    <components/> <!-- components defintion. by default the version in the jar is used -->
+    <generalComponents/> <!-- components defintion. by default the version in the jar is used -->
+    <breeze2stgComponents /> <!-- components defintion. by default the version in the jar is used -->
     <workdir />
 </breeze2stgconfig>

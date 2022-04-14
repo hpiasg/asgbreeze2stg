@@ -20,19 +20,41 @@ package de.uni_potsdam.hpi.asg.breeze2stg;
  */
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.apache.logging.log4j.Logger;
 
-import de.uni_potsdam.hpi.asg.breeze2stg.io.Config;
-import de.uni_potsdam.hpi.asg.breeze2stg.io.ConfigFile;
+import de.uni_potsdam.hpi.asg.asynctoolswrapper.PcompInvoker;
+import de.uni_potsdam.hpi.asg.breeze2stg.components.ScaleAscertainor;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponent;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponents;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.components.Breeze2STGComponentsFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.config.Config;
+import de.uni_potsdam.hpi.asg.breeze2stg.io.config.ConfigFile;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibrary;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGBlueprintLibraryBuilder;
+import de.uni_potsdam.hpi.asg.breeze2stg.stg.STGChannelMapper;
+import de.uni_potsdam.hpi.asg.common.breeze.model.AbstractBreezeNetlist;
+import de.uni_potsdam.hpi.asg.common.breeze.model.BreezeProject;
+import de.uni_potsdam.hpi.asg.common.breeze.model.HSComponentInst;
 import de.uni_potsdam.hpi.asg.common.invoker.ExternalToolsInvoker;
+import de.uni_potsdam.hpi.asg.common.invoker.InvokeReturn;
 import de.uni_potsdam.hpi.asg.common.invoker.local.ShutdownThread;
+import de.uni_potsdam.hpi.asg.common.iohelper.FileHelper;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper;
 import de.uni_potsdam.hpi.asg.common.iohelper.LoggerHelper.Mode;
 import de.uni_potsdam.hpi.asg.common.iohelper.WorkingdirGenerator;
 import de.uni_potsdam.hpi.asg.common.iohelper.Zipper;
 import de.uni_potsdam.hpi.asg.common.misc.CommonConstants;
+import de.uni_potsdam.hpi.asg.common.stg.GFile;
+import de.uni_potsdam.hpi.asg.common.stg.model.STG;
+import de.uni_potsdam.hpi.asg.protocols.io.main.Protocol;
+import de.uni_potsdam.hpi.asg.protocols.io.main.ReadProtocolHelper;
+import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndex;
+import de.uni_potsdam.hpi.asg.protocols.io.stgindex.STGIndexFile;
 
 public class Breeze2STGMain {
 
@@ -67,7 +89,7 @@ public class Breeze2STGMain {
                     return 1;
                 }
                 Runtime.getRuntime().addShutdownHook(new ShutdownThread());
-                WorkingdirGenerator.getInstance().create(options.getWorkingdir(), config.workdir, "resynwork");
+                WorkingdirGenerator.getInstance().create(options.getWorkingdir(), config.workdir, "breeze2stgwork");
                 tooldebug = options.isTooldebug();
                 logger.debug("Using tool config file " + options.getToolConfigFile());
                 if(!ExternalToolsInvoker.init(options.getToolConfigFile(), tooldebug)) {
@@ -92,7 +114,113 @@ public class Breeze2STGMain {
     }
 
     private static int execute() {
+        // Read components config
+        Breeze2STGComponents compConfig = Breeze2STGComponentsFile.readIn(config.breeze2stgComponentConfig);
+        if(compConfig == null) {
+            logger.error("Could not read breeze2stg component configurarion");
+            return -1;
+        }
+
+        // Read protocol file
+        STGIndex stgIndex = readProtocol();
+        if(stgIndex == null) {
+            return -1;
+        }
+
+        // Read breeze
+        File actualBreezeFile;
+        try {
+            actualBreezeFile = options.getBreezeFile().getCanonicalFile();
+        } catch(IOException e) {
+            logger.error(e.getLocalizedMessage());
+            return -1;
+        }
+        BreezeProject proj = BreezeProject.create(actualBreezeFile, config.generalComponentConfig, false, true); //TODO: skips
+        if(proj == null) {
+            logger.error("Could not create Breeze project");
+            return -1;
+        }
+
+        // Choose last
+        AbstractBreezeNetlist breezeNetlist = null;
+        for(AbstractBreezeNetlist n : proj.getSortedNetlists()) {
+            breezeNetlist = n;
+        }
+        if(breezeNetlist == null) {
+            logger.error("Breeze file did not contain a netlist");
+            return -1;
+        }
+
+        // Create STG blueprints
+        STGBlueprintLibrary gen = STGBlueprintLibraryBuilder.create(compConfig, stgIndex, options.getProtocol());
+        if(gen == null) {
+            logger.error("Could not obtain STGGenerator");
+            return -1;
+        }
+
+        Set<File> stgFiles = new HashSet<>();
+        // Iterate instances
+        for(HSComponentInst inst : breezeNetlist.getAllHSInstances()) {
+            String compName = inst.getComp().getComp().getBreezename();
+
+            Breeze2STGComponent comp = compConfig.getComponentByName(compName);
+            if(comp == null) {
+                logger.error("Breeze2STG component configurarion for component " + compName + " not found");
+                return -1;
+            }
+
+            int scaleFactor = ScaleAscertainor.getScale(comp, inst);
+
+            STG stg = gen.getSTGforComponent(compName, scaleFactor, inst.getType());
+            if(stg == null) {
+                logger.error("Blueprint for component " + compName + " not found");
+                return -1;
+            }
+            GFile.writeGFile(stg, new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + ".g"));
+            if(!STGChannelMapper.replaceInSTG(comp, inst, stg)) {
+                logger.error("Breeze2STG channel mapping for component " + compName + " failed");
+                return -1;
+            }
+            File stgFile = new File(WorkingdirGenerator.getInstance().getWorkingDir(), compName + "_" + scaleFactor + "_" + inst.getId() + ".g");
+            GFile.writeGFile(stg, stgFile);
+            stgFiles.add(stgFile);
+        }
+
+        File tmpOut = new File(WorkingdirGenerator.getInstance().getWorkingDir(), "out.g");
+        InvokeReturn ret = PcompInvoker.parallelComposeSTGs(stgFiles, tmpOut);
+        if(ret == null || !ret.getResult()) {
+            logger.error("Pcomp failed");
+            return -1;
+        }
+        if(!FileHelper.getInstance().copyfile(tmpOut, options.getOutFile())) {
+            return -1;
+        }
+
         return 0;
+    }
+
+    private static STGIndex readProtocol() {
+        Protocol protocol = ReadProtocolHelper.readFromName(options.getProtocol());
+        if(protocol == null) {
+            return null;
+        }
+        File stgIndexFile = protocol.getStgIndexFile();
+        if(stgIndexFile == null) {
+            logger.error("STGIndex file undefined in protocol '" + options.getProtocol() + "'");
+            return null;
+        }
+        if(!stgIndexFile.exists()) {
+            logger.error("Missing STGIndex file '" + stgIndexFile.getAbsolutePath() + "'");
+            return null;
+        }
+
+        STGIndex stgIndex = STGIndexFile.readIn(stgIndexFile);
+        if(stgIndex == null) {
+            logger.error("Could not read STGIndex file '" + stgIndexFile + "'");
+            return null;
+        }
+
+        return stgIndex;
     }
 
     /**

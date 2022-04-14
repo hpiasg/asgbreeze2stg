@@ -1,7 +1,7 @@
-package de.uni_potsdam.hpi.asg.breeze2stg.io;
+package de.uni_potsdam.hpi.asg.breeze2stg.io.config;
 
 /*
- * Copyright (C) 2018 Norman Kluge
+ * Copyright (C) 2018-2022 Norman Kluge
  * 
  * This file is part of ASGbreeze2stg.
  * 
@@ -24,13 +24,13 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import jakarta.xml.bind.JAXBContext;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.Marshaller;
+import jakarta.xml.bind.Unmarshaller;
 
 public class ConfigFile {
     private static final Logger logger = LogManager.getLogger();

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <!--
-Copyright 2018 Norman Kluge
+Copyright 2018-2022 Norman Kluge
  
 This file is part of ASGbreeze2stg.
  
@@ -22,7 +22,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>de.uni_potsdam.hpi.asg</groupId>
 	<artifactId>asgbreeze2stg</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<organization>
 		<name>Hasso-Plattner-Institut fuer Softwaresystemtechnik GmbH</name>
 		<url>http://www.hpi.uni-potsdam.de</url>
@@ -41,15 +41,11 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 			<url>http://www.gnu.org/licenses/gpl.txt</url>
 		</license>
 	</licenses>
-	<prerequisites>
-		<maven>3.0</maven>
-	</prerequisites>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<desij.version>3.1.2</desij.version>
-		<common.version>4.0.0-SNAPSHOT</common.version>
-		<wrapper-async.version>1.0.0-SNAPSHOT</wrapper-async.version>
-		<wrapper-asg.version>1.0.0-SNAPSHOT</wrapper-asg.version>
+		<common.version>4.0.4</common.version>
+		<protocols.version>1.0.1</protocols.version>
+		<wrapper-async.version>1.1.1</wrapper-async.version>
 	</properties>
 	<build>
 		<resources>
@@ -72,6 +68,12 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 				<excludes>
 					<exclude>**/*</exclude>
 				</excludes>
+			</resource>
+			<resource>
+				<directory>src/main/resources/jar</directory>
+				<includes>
+					<include>**/*</include>
+				</includes>
 			</resource>
 			<resource>
 				<directory>src/assembly</directory>
@@ -110,17 +112,37 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 		</pluginManagement>
 		<plugins>
 			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0</version>
+				<executions>
+				<execution>
+					<id>enforce-maven</id>
+					<goals>
+					<goal>enforce</goal>
+					</goals>
+					<configuration>
+					<rules>
+						<requireMavenVersion>
+							<version>3.1.1</version>
+						</requireMavenVersion>
+					</rules>    
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
+			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.6.1</version>
+				<version>3.8.1</version>
 				<configuration>
-					<source>1.7</source>
-					<target>1.7</target>
+					<source>1.8</source>
+					<target>1.8</target>
 				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.20</version>
+				<version>3.0.0-M5</version>
 				<configuration>
 					<workingDirectory>${project.build.directory}/test-runs</workingDirectory>
 				</configuration>
@@ -128,7 +150,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-javadoc-plugin</artifactId>
-				<version>2.10.4</version>
+				<version>3.3.2</version>
 				<configuration>
 				</configuration>
 			</plugin>
@@ -147,7 +169,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>appassembler-maven-plugin</artifactId>
-						<version>2.0.0</version>
+						<version>2.1.0</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -162,17 +184,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 							</platforms>
 							<programs>
 								<program>
-									<mainClass>de.uni_potsdam.hpi.asg.breez2stg.Breeze2STGMain</mainClass>
-									<id>ASGresyn</id>
-									<jvmSettings>
-										<extraArguments>
-											<extraArgument>-Dlog4j.configurationFile=@BASEDIR@/config/log4j2_noconfig.xml</extraArgument>
-										</extraArguments>
-									</jvmSettings>
-								</program>
-								<program>
-									<mainClass>de.uni_potsdam.hpi.asg.breez2stg.Breeze2STGMain</mainClass>
-									<id>ASGresyn_run</id>
+									<mainClass>de.uni_potsdam.hpi.asg.breeze2stg.Breeze2STGMain</mainClass>
+									<id>ASGbreeze2stg</id>
 									<jvmSettings>
 										<extraArguments>
 											<extraArgument>-Dlog4j.configurationFile=@BASEDIR@/config/log4j2_noconfig.xml</extraArgument>
@@ -188,7 +201,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					</plugin>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>3.0.0</version>
+						<version>3.3.0</version>
 						<configuration>
 							<descriptors>
 								<descriptor>src/assembly/unix_assembly.xml</descriptor>
@@ -207,7 +220,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.3.0</version>
 						<executions>
 							<execution>
 								<phase>generate-resources</phase>
@@ -216,14 +229,6 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 								</goals>
 								<configuration>
 									<artifactItems>
-										<artifactItem>
-											<groupId>net.strongdesign</groupId>
-											<artifactId>desij</artifactId>
-											<version>${desij.version}</version>
-											<classifier>unix</classifier>
-											<type>tar.gz</type>
-											<outputDirectory>${project.build.directory}</outputDirectory>
-										</artifactItem>
 										<artifactItem>
 											<groupId>de.uni_potsdam.hpi.asg</groupId>
 											<artifactId>asgwrapper-asynctools</artifactId>
@@ -234,8 +239,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										</artifactItem>
 										<artifactItem>
 											<groupId>de.uni_potsdam.hpi.asg</groupId>
-											<artifactId>asgwrapper-asgtools</artifactId>
-											<version>${wrapper-asg.version}</version>
+											<artifactId>asgprotocols</artifactId>
+											<version>${protocols.version}</version>
 											<classifier>unix</classifier>
 											<type>tar.gz</type>
 											<outputDirectory>${project.build.directory}</outputDirectory>
@@ -248,7 +253,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.8</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -257,13 +262,6 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 								</goals>
 								<configuration>
 									<target>
-										<!-- DesiJ -->
-										<exec executable="mv" osfamily="unix">
-											<arg line="${project.build.directory}/desij-${desij.version} ${project.build.directory}/desij" />
-										</exec>
-										<exec executable="cmd" osfamily="windows">
-											<arg line="/c move ${project.build.directory}/desij-${desij.version} ${project.build.directory}/desij" />
-										</exec>
 										<!-- Wrapper-async -->
 										<exec executable="mv" osfamily="unix">
 											<arg
@@ -272,13 +270,13 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										<exec executable="cmd" osfamily="windows">
 											<arg line="/c move ${project.build.directory}/asgwrapper-asynctools-${wrapper-async.version} ${project.build.directory}/asgwrapper-asynctools" />
 										</exec>
-										<!-- Wrapper-asg -->
+										<!-- Protocols -->
 										<exec executable="mv" osfamily="unix">
 											<arg
-												line="${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+												line="${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 										<exec executable="cmd" osfamily="windows">
-											<arg line="/c move ${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+											<arg line="/c move ${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 									</target>
 								</configuration>
@@ -301,7 +299,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.codehaus.mojo</groupId>
 						<artifactId>appassembler-maven-plugin</artifactId>
-						<version>2.0.0</version>
+						<version>2.1.0</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -316,17 +314,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 							</platforms>
 							<programs>
 								<program>
-									<mainClass>de.uni_potsdam.hpi.asg.breez2stg.Breeze2STGMain</mainClass>
-									<id>ASGresyn</id>
-									<jvmSettings>
-										<extraArguments>
-											<extraArgument>-Dlog4j.configurationFile=@BASEDIR@/config/log4j2_noconfig.xml</extraArgument>
-										</extraArguments>
-									</jvmSettings>
-								</program>
-								<program>
-									<mainClass>de.uni_potsdam.hpi.asg.breez2stg.Breeze2STGMain</mainClass>
-									<id>ASGresyn_run</id>
+									<mainClass>de.uni_potsdam.hpi.asg.breeze2stg.Breeze2STGMain</mainClass>
+									<id>ASGbreeze2stg</id>
 									<jvmSettings>
 										<extraArguments>
 											<extraArgument>-Dlog4j.configurationFile=@BASEDIR@/config/log4j2_noconfig.xml</extraArgument>
@@ -342,7 +331,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					</plugin>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>3.0.0</version>
+						<version>3.3.0</version>
 						<configuration>
 							<descriptors>
 								<descriptor>src/assembly/windows_assembly.xml</descriptor>
@@ -361,7 +350,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-dependency-plugin</artifactId>
-						<version>3.0.1</version>
+						<version>3.3.0</version>
 						<executions>
 							<execution>
 								<phase>generate-resources</phase>
@@ -370,14 +359,6 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 								</goals>
 								<configuration>
 									<artifactItems>
-										<artifactItem>
-											<groupId>net.strongdesign</groupId>
-											<artifactId>desij</artifactId>
-											<version>${desij.version}</version>
-											<classifier>win</classifier>
-											<type>zip</type>
-											<outputDirectory>${project.build.directory}</outputDirectory>
-										</artifactItem>
 										<artifactItem>
 											<groupId>de.uni_potsdam.hpi.asg</groupId>
 											<artifactId>asgwrapper-asynctools</artifactId>
@@ -388,8 +369,8 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										</artifactItem>
 										<artifactItem>
 											<groupId>de.uni_potsdam.hpi.asg</groupId>
-											<artifactId>asgwrapper-asgtools</artifactId>
-											<version>${wrapper-asg.version}</version>
+											<artifactId>asgprotocols</artifactId>
+											<version>${protocols.version}</version>
 											<classifier>win</classifier>
 											<type>zip</type>
 											<outputDirectory>${project.build.directory}</outputDirectory>
@@ -402,7 +383,7 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 					<plugin>
 						<groupId>org.apache.maven.plugins</groupId>
 						<artifactId>maven-antrun-plugin</artifactId>
-						<version>1.8</version>
+						<version>3.0.0</version>
 						<executions>
 							<execution>
 								<phase>prepare-package</phase>
@@ -411,13 +392,6 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 								</goals>
 								<configuration>
 									<target>
-										<!-- DesiJ -->
-										<exec executable="mv" osfamily="unix">
-											<arg line="${project.build.directory}/desij-${desij.version} ${project.build.directory}/desij" />
-										</exec>
-										<exec executable="cmd" osfamily="windows">
-											<arg line="/c move ${project.build.directory}/desij-${desij.version} ${project.build.directory}/desij" />
-										</exec>
 										<!-- Wrapper-async -->
 										<exec executable="mv" osfamily="unix">
 											<arg
@@ -426,13 +400,13 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 										<exec executable="cmd" osfamily="windows">
 											<arg line="/c move ${project.build.directory}/asgwrapper-asynctools-${wrapper-async.version} ${project.build.directory}/asgwrapper-asynctools" />
 										</exec>
-										<!-- Wrapper-asg -->
+										<!-- Protocols -->
 										<exec executable="mv" osfamily="unix">
 											<arg
-												line="${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+												line="${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 										<exec executable="cmd" osfamily="windows">
-											<arg line="/c move ${project.build.directory}/asgwrapper-asgtools-${wrapper-asg.version} ${project.build.directory}/asgwrapper-asgtools" />
+											<arg line="/c move ${project.build.directory}/asgprotocols-${protocols.version} ${project.build.directory}/asgprotocols" />
 										</exec>
 									</target>
 								</configuration>
@@ -446,50 +420,19 @@ along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
 	</profiles>
 	<dependencies>
 		<dependency>
-			<groupId>args4j</groupId>
-			<artifactId>args4j</artifactId>
-			<version>2.33</version>
-		</dependency>
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>20.0</version>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.12</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-api</artifactId>
-			<version>2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-core</artifactId>
-			<version>2.1</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>2.5</version>
-		</dependency>
-		<dependency>
 			<groupId>de.uni_potsdam.hpi.asg</groupId>
 			<artifactId>asgcommon</artifactId>
 			<version>${common.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.uni_potsdam.hpi.asg</groupId>
-			<artifactId>asgwrapper-asynctools</artifactId>
-			<version>${wrapper-async.version}</version>
+			<artifactId>asgprotocols</artifactId>
+			<version>${protocols.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>de.uni_potsdam.hpi.asg</groupId>
-			<artifactId>asgwrapper-asgtools</artifactId>
-			<version>${wrapper-asg.version}</version>
+			<artifactId>asgwrapper-asynctools</artifactId>
+			<version>${wrapper-async.version}</version>
 		</dependency>
 	</dependencies>
 </project>
