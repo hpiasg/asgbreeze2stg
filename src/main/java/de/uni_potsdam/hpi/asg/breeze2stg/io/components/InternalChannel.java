@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 
 /*
- * Copyright (C) 2018 Norman Kluge
+ * Copyright (C) 2018-2022 Norman Kluge
  * 
  * This file is part of ASGbreeze2stg.
  * 
@@ -19,9 +19,9 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
  * along with ASGbreeze2stg.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAttribute;
 
 @XmlAccessorType(XmlAccessType.NONE)
 public class InternalChannel extends Channel {

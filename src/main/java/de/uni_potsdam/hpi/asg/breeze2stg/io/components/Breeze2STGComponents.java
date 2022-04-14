@@ -1,7 +1,7 @@
 package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 
 /*
- * Copyright (C) 2018 Norman Kluge
+ * Copyright (C) 2018-2022 Norman Kluge
  * 
  * This file is part of ASGbreeze2stg.
  * 
@@ -21,13 +21,13 @@ package de.uni_potsdam.hpi.asg.breeze2stg.io.components;
 
 import java.util.List;
 
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "breeze2stgComponents")
 @XmlAccessorType(XmlAccessType.NONE)
