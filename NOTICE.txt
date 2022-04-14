@@ -1,4 +1,4 @@
-ASGbreeze2stg v1.0
+ASGbreeze2stg v1.0.1
 Copyright (C) 2018-2022 Hasso-Plattner-Institut für Digital Engineering gGmbH
 
 This product includes software developed at Hasso-Plattner-Institut für Digital Engineering gGmbH.
